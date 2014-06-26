@@ -27,18 +27,20 @@
   "homepage": "https://github.com/Wu-Wu/grunt-tt2-bem",
   "main": "Gruntfile.js",
   "scripts": {
-      "test": "grunt test"
+    "test": "grunt test"
   },
   "engines": {
-      "node": ">= 0.10.0"
+    "node": ">= 0.10.0"
   },
   "dependencies": {
+    "lodash": "~2.4.1",
+    "bem-naming": "0.0.3"
   },
   "devDependencies": {
-      "grunt": "~0.4.1",
-      "grunt-contrib-jshint": "~0.2.0"
+    "grunt": "~0.4.1",
+    "grunt-contrib-jshint": "~0.2.0"
   },
   "peerDependencies": {
-      "grunt": "~0.4.1"
+    "grunt": "~0.4.1"
   }
 }
