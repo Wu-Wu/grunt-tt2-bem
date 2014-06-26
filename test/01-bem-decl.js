@@ -60,9 +60,9 @@ describe('bem-decl', function() {
                 bd.decl().should.have.length(2);
             });
 
-            it('should correct declaration', function() {
+            it('should return correct declaration', function() {
                 bd.decl().should.be.eql([
-                    { block: 'b-text' },
+                    { block: 'b-text', mods: [ { mod: 'size', val: 15 } ] },
                     { block: 'b-foo', elem: 'bar' }
                 ]);
             });
