@@ -81,7 +81,10 @@ BemDecl.prototype.deps = function() {
         decl = [];
 
     _.each(this.listParsed(), function (item) {
-        var index = _.indexOf(order, item.block);
+        var index    = _.indexOf(order, item.block),
+            hasElem = ! _.isUndefined(item.elem),
+            hasMod  = ! _.isUndefined(item.modName),
+            hasVal  = ! _.isUndefined(item.modVal);
 
         if (index === -1) {
             order.push(item.block);
@@ -89,20 +92,23 @@ BemDecl.prototype.deps = function() {
             decl.push({ block: item.block });
         }
 
-        // определён элемент
-        if (!_.isUndefined(item.elem)) {
-            var has_one = _.has(decl[index], 'elem'),
-                has_many = _.has(decl[index], 'elems');
+        // exists element
+        if (hasElem) {
+            var singular = _.has(decl[index], 'elem'),
+                plural   = _.has(decl[index], 'elems');
 
-            if (!has_one && !has_many) {
+            if (!singular && !plural) {
+                // +element to singular
                 decl[index]['elem'] = item.elem;
             }
-            else if (has_one) {
+            else if (singular) {
+                // cast singular to plural
                 var prev= decl[index]['elem'];
                 delete decl[index]['elem'];
                 decl[index]['elems'] = [ prev, item.elem ];
             }
-            else if (has_many) {
+            else if (plural) {
+                // +element to plural
                 decl[index]['elems'].push(item.elem);
             }
             else {
