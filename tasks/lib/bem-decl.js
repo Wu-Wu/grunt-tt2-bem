@@ -172,4 +172,4 @@ BemDecl.prototype.deps = function() {
     // }
 };
 
-module.exports = new BemDecl({ debug: 1 });
+module.exports = new BemDecl({ debug: false });
