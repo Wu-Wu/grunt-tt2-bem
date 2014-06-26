@@ -1,7 +1,7 @@
 //
 // bem-decl.js tests
 //
-var revision = require('../tasks/lib/bem-decl'),
+var revision = require('../lib/bem-decl'),
     should = require('should');
 
 require('mocha');
