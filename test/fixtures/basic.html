@@ -1,0 +1,36 @@
+[%~
+
+html.title = t( 'choose_domain-tt.title' );
+html.is_wide = 1;
+body_class = 'b-page__footer-hide';
+html.content_classname = 'b-content_indent-top_none b-content_indent-bottom_none';
+
+%]
+<p class="b-text b-text_size_15">[% t( 'choose_domain-tt.adwords.description' ) %]</p>
+
+<div class="i-rel b-checkmany-form__holder">
+<div class="b-checkmany-query__wrapper l-margin">
+    <div class="b-page__content-wrapper">
+    [% WRAPPER grid
+        grid_type => 'table'
+    %]
+        [% WRAPPER grid_column
+            column_size => 9
+        %]
+
+        <h1 class="b-foo b-foo__bar">foo1</h1>
+        <h2 class="b-foo b-foo__bar">foo2</h2>
+
+        [% END # WRAPPER grid_column %]
+        [% WRAPPER grid_column
+            column_size => 3
+        %]
+        <a class="b-checkmany-adwords b-popup__trigger-open" href="#parallels_AD">
+            <span class="b-checkmany-adwords__corner"></span>
+
+            <strong class="b-checkmany-adwords__title">[% t( 'choose_domain-tt.adwords.banner' ) %]</strong>
+        </a>
+        [% END # WRAPPER grid_column %]
+    [% END # WRAPPER grid %]
+    </div>
+</div>

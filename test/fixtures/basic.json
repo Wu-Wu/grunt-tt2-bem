@@ -1,0 +1,92 @@
+{
+    "listFound" : [
+        "b-page__footer-hide",
+        "b-content_indent-top_none",
+        "b-content_indent-bottom_none",
+        "b-text",
+        "b-text_size_15",
+        "i-rel",
+        "b-checkmany-form__holder",
+        "b-checkmany-query__wrapper",
+        "l-margin",
+        "b-page__content-wrapper",
+        "b-foo",
+        "b-foo__bar",
+        "b-foo",
+        "b-foo__bar",
+        "b-checkmany-adwords",
+        "b-popup__trigger-open",
+        "b-checkmany-adwords__corner",
+        "b-checkmany-adwords__title"
+    ],
+    "listParsed" : [
+        {
+            "block": "b-text",
+            "elem": null,
+            "modName": null,
+            "modVal": null
+        },
+        {
+            "block": "b-text",
+            "elem": null,
+            "modName": "size",
+            "modVal": 15
+        },
+        {
+            "block": "i-rel",
+            "elem": null,
+            "modName": null,
+            "modVal": null
+        },
+        {
+            "block": "l-margin",
+            "elem": null,
+            "modName": null,
+            "modVal": null
+        },
+        {
+            "block": "b-foo",
+            "elem": null,
+            "modName": null,
+            "modVal": null
+        },
+        {
+            "block": "b-foo",
+            "elem": "bar",
+            "modName": null,
+            "modVal": null
+        },
+        {
+            "block": "b-checkmany-adwords",
+            "elem": null,
+            "modName": null,
+            "modVal": null
+        },
+        {
+            "block": "b-checkmany-adwords",
+            "elem": "corner",
+            "modName": null,
+            "modVal": null
+        },
+        {
+            "block": "b-checkmany-adwords",
+            "elem": "title",
+            "modName": null,
+            "modVal": null
+        }
+    ],
+    "decl" : [
+        { "block": "b-text" },
+        { "block": "i-rel" },
+        { "block": "l-margin" },
+        { "block": "b-title" },
+        {
+            "block": "b-foo",
+            "elem": "bar"
+        },
+        {
+            "block": "b-checkmany-adwords",
+            "elems": [ "corner", "title" ]
+        }
+    ]
+}
