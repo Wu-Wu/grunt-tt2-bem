@@ -16,6 +16,45 @@ var loadFixture = function (name) {
 
 describe('bem-decl', function() {
 
+    describe('handleElemOnly()', function(){
+        var block,
+            entity = { elem: 'bar' };
+
+        before(function(){
+            bd.parse('');
+        });
+
+        after(function(){
+            bd.clear();
+        });
+
+        beforeEach(function(){
+            block = { block: 'b-foo' };
+        });
+
+        it('should add "elem" key to empty block', function(){
+            var got = bd.handleElemOnly(block, entity);
+
+            got.should.be.eql({ block: 'b-foo', elem: 'bar' });
+        });
+
+        it('should add "elems" key to empty block', function(){
+            block.elem = 'quux';
+
+            var got = bd.handleElemOnly(block, entity);
+
+            got.should.be.eql({ block: 'b-foo', elems: [ 'quux', 'bar' ] });
+        });
+
+        it('should not pluralize key for the same element', function(){
+            block.elem = 'bar';
+
+            var got = bd.handleElemOnly(block, entity);
+
+            got.should.be.eql({ block: 'b-foo', elem: 'bar' });
+        });
+    });
+
     describe('inline (simple)', function(){
         before(function(){
             bd.parse( '<p class="b-text b-text_size_15 b-foo b-foo__bar"></p>' );
