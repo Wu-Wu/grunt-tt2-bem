@@ -1,0 +1,60 @@
+{
+    "decl": [
+        {
+            "block": "b-foo",
+            "mod": "bar"
+        },
+        {
+            "block": "b-text",
+            "mods": [
+                { "mod" : "size", "val" : 15 }
+            ]
+        },
+        {
+            "block": "b-logo",
+            "mods": [
+                { "mod" : "foo", "vals" : [ "bar", "baz" ] }
+            ]
+        },
+        {
+            "block": "b-baz",
+            "mods": [
+                { "mod" : "quux", "val" : true },
+                { "mod" : "font-size", "val" : "2em" }
+            ]
+        },
+        {
+            "block": "b-aaa",
+            "mods": [
+                { "mod" : "quux1", "val" : true },
+                { "mod" : "quux2", "val" : true }
+            ]
+        },
+        {
+            "block": "b-section",
+            "mods": [
+                { "mod" : "header", "vals" : [ true, "big" ] }
+            ]
+        },
+        {
+            "block": "b-para",
+            "mods": [
+                { "mod" : "align", "vals" : [ "left", true ] }
+            ]
+        },
+        {
+            "block": "b-ccc",
+            "mods": [
+                { "mod" : "foo", "val" : "bar" },
+                { "mod" : "baz", "val" : "bar" }
+            ]
+        },
+        {
+            "block": "b-ddd",
+            "mods": [
+                { "mod" : "foo", "val" : "bar" },
+                { "mod" : "baz", "val" : true }
+            ]
+        }
+    ]
+}

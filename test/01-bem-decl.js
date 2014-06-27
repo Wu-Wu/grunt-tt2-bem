@@ -69,10 +69,12 @@ describe('bem-decl', function() {
         });
     });
 
-    describe('singular/plural forms of elem', function() {
+    describe('elem: singular/plural forms', function() {
+        var elems;
 
         before(function(){
-            bd.parse( '<p class="b-foo b-foo__bar b-baz b-baz__qux b-baz__quux i-rel"></p>' );
+            elems = loadFixture('elems');
+            bd.parse(elems.template);
         })
 
         after(function(){
@@ -80,15 +82,32 @@ describe('bem-decl', function() {
         });
 
         it('should return correct length list of blocks', function() {
-            bd.decl().should.have.length(3);
+            bd.decl().should.have.length(elems.expected.decl.length);
         });
 
         it('should return correct form for the "elem"', function() {
-            bd.decl().should.be.eql([
-                { block: 'b-foo', elem: 'bar' },
-                { block: 'b-baz', elems: [ 'qux', 'quux' ] },
-                { block: 'i-rel' }
-            ]);
+            bd.decl().should.be.eql(elems.expected.decl);
+        });
+    });
+
+    describe('mod: singular/plural forms', function() {
+        var mods;
+
+        before(function(){
+            mods = loadFixture('mods');
+            bd.parse(mods.template);
+        })
+
+        after(function(){
+            bd.clear();
+        });
+
+        it('should return correct length list of blocks', function() {
+            bd.decl().should.have.length(mods.expected.decl.length);
+        });
+
+        it('should return correct form for the "mod"', function() {
+            bd.decl().should.be.eql(mods.expected.decl);
         });
     });
 

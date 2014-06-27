@@ -1,0 +1,15 @@
+{
+    "decl": [
+        {
+            "block" : "i-rel"
+        },
+        {
+            "block" : "b-foo",
+            "elem" : "bar"
+        },
+        {
+            "block" : "b-baz",
+            "elems" : [ "qux", "quux" ]
+        }
+    ]
+}
