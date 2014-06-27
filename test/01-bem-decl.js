@@ -55,6 +55,148 @@ describe('bem-decl', function() {
         });
     });
 
+    describe('handleModOnly()', function(){
+        var block, entity;
+
+        before(function(){
+            bd.parse('');
+        });
+
+        after(function(){
+            bd.clear();
+        });
+
+        beforeEach(function(){
+            block = { block: 'b-foo' };
+            entity = { modName: 'bar', modVal: 'baz' };
+        });
+
+        it('should add "mods" key for non-boolean "mod"', function(){
+            var got = bd.handleModOnly(block, entity);
+
+            got.should.be.eql({
+                block: 'b-foo',
+                mods: [
+                    { mod: 'bar', val: 'baz' }
+                ]
+            });
+        });
+
+        it('should add "mod" key for boolean "mod"', function(){
+            entity.modVal = true;
+
+            var got = bd.handleModOnly(block, entity);
+
+            got.should.be.eql({ block: 'b-foo', mod: 'bar' });
+        });
+
+        it('should cast list of "mods" for another boolean "mod"', function(){
+            entity.modVal = true;
+            block.mod = 'quux';
+
+            var got = bd.handleModOnly(block, entity);
+
+            got.should.be.eql({
+                block: 'b-foo',
+                mods: [
+                    { mod: 'quux', val: true },
+                    { mod: 'bar', val: true }
+                ]
+            });
+        });
+
+        it('should cast list of "mods" for another non-boolean "mod"', function(){
+            block.mod = 'quux';
+
+            var got = bd.handleModOnly(block, entity);
+
+            got.should.be.eql({
+                block: 'b-foo',
+                mods: [
+                    { mod: 'quux', val: true },
+                    { mod: 'bar', val: 'baz' }
+                ]
+            });
+        });
+
+        it('should change to "vals" key for the same non-boolean "mod"', function(){
+            block.mod = 'bar';
+
+            var got = bd.handleModOnly(block, entity);
+
+            got.should.be.eql({
+                block: 'b-foo',
+                mods: [
+                    { mod: 'bar', vals: [ true, 'baz' ] }
+                ]
+            });
+        });
+
+        it('should add to "mods" any other "mod"', function(){
+            block.mods = [
+                { mod: 'quux', val: '42' }
+            ];
+
+            var got = bd.handleModOnly(block, entity);
+
+            got.should.be.eql({
+                block: 'b-foo',
+                mods: [
+                    { mod: 'quux', val: '42' },
+                    { mod: 'bar', val: 'baz' }
+                ]
+            });
+        });
+
+        it('should change to "vals" if "mod" already exists', function(){
+            block.mods = [
+                { mod: 'quux', val: '42' },
+                { mod: 'bar', val: true }
+            ];
+
+            var got = bd.handleModOnly(block, entity);
+
+            got.should.be.eql({
+                block: 'b-foo',
+                mods: [
+                    { mod: 'quux', val: '42' },
+                    { mod: 'bar', vals: [ true, 'baz' ] }
+                ]
+            });
+        });
+
+        it('should add to "vals" if "mod" already exists', function(){
+            block.mods = [
+                { mod: 'bar', vals: [ 'a', 'b' ] }
+            ];
+
+            var got = bd.handleModOnly(block, entity);
+
+            got.should.be.eql({
+                block: 'b-foo',
+                mods: [
+                    { mod: 'bar', vals: [ 'a', 'b', 'baz' ] }
+                ]
+            });
+        });
+
+        it('should not add to "vals" for "mod" if value already in list', function(){
+            block.mods = [
+                { mod: 'bar', vals: [ 'baz', 'b' ] }
+            ];
+
+            var got = bd.handleModOnly(block, entity);
+
+            got.should.be.eql({
+                block: 'b-foo',
+                mods: [
+                    { mod: 'bar', vals: [ 'baz', 'b' ] }
+                ]
+            });
+        });
+
+    });
+
     describe('inline (simple)', function(){
         before(function(){
             bd.parse( '<p class="b-text b-text_size_15 b-foo b-foo__bar"></p>' );
