@@ -5,7 +5,8 @@
         },
         {
             "block" : "b-foo",
-            "elem" : "bar"
+            "elem" : "bar",
+            "mod" : "aaa"
         },
         {
             "block" : "b-baz",
