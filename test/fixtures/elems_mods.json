@@ -34,5 +34,27 @@
                 ]
             }
         ]
+    },
+    "caseE" : {
+        "block" : "b-foo",
+        "elems" : [
+            { "elem" : "foo" },
+            {
+                "elem" : "bar",
+                "mod" : "qux"
+            }
+        ]
+    },
+    "caseF" : {
+        "block" : "b-foo",
+        "elems" : [
+            { "elem" : "foo" },
+            {
+                "elem" : "bar",
+                "mods" : [
+                    { "mod" : "qux", "val" : "quux" }
+                ]
+            }
+        ]
     }
 }

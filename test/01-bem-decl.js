@@ -278,6 +278,23 @@ describe('bem-decl', function() {
 
             got.should.be.eql(em.expected.caseD);
         });
+
+        it('should add to "elems" non-existent "elem" w/ boolean "mod"', function(){
+            block.elems = [ { elem: 'foo' } ];
+
+            var got = bd.handleElemMod(block, entity);
+
+            got.should.be.eql(em.expected.caseE);
+        });
+
+        it('should add to "elems" non-existent "elem" w/ non-boolean "mod"', function(){
+            block.elems = [ { elem: 'foo' } ];
+            entity.modVal = 'quux';
+
+            var got = bd.handleElemMod(block, entity);
+
+            got.should.be.eql(em.expected.caseF);
+        });
     });
 
     describe('inline (simple)', function(){
