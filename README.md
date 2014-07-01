@@ -4,6 +4,7 @@ grunt-tt2-bem
 > Template Toolkit 2 to BEM bridge.
 
 [![Build Status](https://travis-ci.org/Wu-Wu/grunt-tt2-bem.svg?branch=master)](https://travis-ci.org/Wu-Wu/grunt-tt2-bem)
+[![Coverage Status](https://coveralls.io/repos/Wu-Wu/grunt-tt2-bem/badge.png?branch=master)](https://coveralls.io/r/Wu-Wu/grunt-tt2-bem?branch=master)
 [![Dependency Status](https://david-dm.org/Wu-Wu/grunt-tt2-bem.svg)](https://david-dm.org/Wu-Wu/grunt-tt2-bem)
 
 ## Getting Started
