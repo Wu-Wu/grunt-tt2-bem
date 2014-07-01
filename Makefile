@@ -1,10 +1,10 @@
 REPORTER = spec
 
 lint:
-	./node_modules/.bin/jshint -c .jshintrc ./test ./lib ./Gruntfile.js
+	./node_modules/.bin/jshint ./test ./lib ./Gruntfile.js
 
 test:
-	# $(MAKE) lint
+	$(MAKE) lint
 	@NODE_ENV=test ./node_modules/.bin/mocha -b -R $(REPORTER)
 
 test-coveralls:

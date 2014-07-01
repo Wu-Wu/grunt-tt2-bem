@@ -1,3 +1,4 @@
+/* global describe, it, before, after, beforeEach, afterEach */
 //
 // bem-decl.js tests
 //
@@ -356,7 +357,7 @@ describe('bem-decl', function() {
         before(function(){
             elems = loadFixture('elems');
             bd.parse(elems.template);
-        })
+        });
 
         after(function(){
             bd.clear();
@@ -377,7 +378,7 @@ describe('bem-decl', function() {
         before(function(){
             mods = loadFixture('mods');
             bd.parse(mods.template);
-        })
+        });
 
         after(function(){
             bd.clear();
@@ -398,7 +399,7 @@ describe('bem-decl', function() {
         before(function(){
             basic = loadFixture('basic');
             bd.parse( basic.template );
-        })
+        });
 
         after(function(){
             bd.clear();

@@ -48,5 +48,18 @@
   },
   "peerDependencies": {
     "grunt": "~0.4.1"
+  },
+  "jshintConfig": {
+    "curly": true,
+    "eqeqeq": true,
+    "immed": true,
+    "latedef": true,
+    "newcap": true,
+    "noarg": true,
+    "sub": true,
+    "undef": true,
+    "boss": true,
+    "eqnull": true,
+    "node": true
   }
 }
