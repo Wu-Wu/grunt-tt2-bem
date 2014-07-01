@@ -1,0 +1,38 @@
+{
+    "caseA" : {
+        "block" : "b-foo",
+        "elems" : [
+            { "elem" : "bar", "mod" : "qux" }
+        ]
+    },
+    "caseB" : {
+        "block" : "b-foo",
+        "elems" : [
+            {
+                "elem" : "bar",
+                "mods" : [
+                    { "mod" : "qux", "val" : "quux" }
+                ]
+            }
+        ]
+    },
+    "caseC" : {
+        "block" : "b-foo",
+        "elems" : [
+            { "elem" : "foo" },
+            { "elem" : "bar", "mod" : "qux" }
+        ]
+    },
+    "caseD" : {
+        "block" : "b-foo",
+        "elems" : [
+            { "elem" : "foo" },
+            {
+                "elem" : "bar",
+                "mods" : [
+                    { "mod" : "qux", "val" : "quux" }
+                ]
+            }
+        ]
+    }
+}

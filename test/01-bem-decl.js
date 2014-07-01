@@ -16,6 +16,38 @@ var loadFixture = function (name) {
 
 describe('bem-decl', function() {
 
+    describe('toMod()', function(){
+        it('should return "mods" for non-boolean mod', function(){
+            var entity = {
+                modName: 'foo',
+                modVal: 'bar'
+            };
+
+            var got = bd.toMod(entity);
+
+            got.should.be.eql({
+                key: 'mods',
+                val: [
+                    { mod: 'foo', val: 'bar' }
+                ]
+            });
+        });
+
+        it('should return "mod" for boolean mod', function(){
+            var entity = {
+                modName: 'foo',
+                modVal: true
+            };
+
+            var got = bd.toMod(entity);
+
+            got.should.be.eql({
+                key: 'mod',
+                val: 'foo'
+            });
+        });
+    });
+
     describe('handleElemOnly()', function(){
         var block,
             entity = { elem: 'bar' };
@@ -195,6 +227,57 @@ describe('bem-decl', function() {
             });
         });
 
+    });
+
+    describe('handleElemMod()', function(){
+        var block,
+            entity,
+            em;
+
+        before(function(){
+            em = loadFixture('elems_mods');
+            bd.parse('');
+        });
+
+        after(function(){
+            bd.clear();
+        });
+
+        beforeEach(function(){
+            block = { block: 'b-foo' };
+            entity = { elem: 'bar', modName: 'qux', modVal: true };
+        });
+
+        it('should wrap to "elems" for boolean "mod" and "elem"', function(){
+            var got = bd.handleElemMod(block, entity);
+
+            got.should.be.eql(em.expected.caseA);
+        });
+
+        it('should wrap to "elems" for non-boolean "mod" and "elem"', function(){
+            entity.modVal = 'quux';
+
+            var got = bd.handleElemMod(block, entity);
+
+            got.should.be.eql(em.expected.caseB);
+        });
+
+        it('should transform to "elems" existed "elem" boolean "mod"', function(){
+            block.elem = 'foo';
+
+            var got = bd.handleElemMod(block, entity);
+
+            got.should.be.eql(em.expected.caseC);
+        });
+
+        it('should transform to "elems" existed "elem" for non-boolean "mod"', function(){
+            block.elem = 'foo';
+            entity.modVal = 'quux';
+
+            var got = bd.handleElemMod(block, entity);
+
+            got.should.be.eql(em.expected.caseD);
+        });
     });
 
     describe('inline (simple)', function(){

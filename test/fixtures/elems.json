@@ -5,8 +5,9 @@
         },
         {
             "block" : "b-foo",
-            "elem" : "bar",
-            "mod" : "aaa"
+            "elems" : [
+                { "elem" : "bar", "mod" : "aaa" }
+            ]
         },
         {
             "block" : "b-baz",
