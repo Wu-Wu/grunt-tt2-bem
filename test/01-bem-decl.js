@@ -165,7 +165,7 @@ describe('bem-decl', function() {
 
     describe('handleElemOnly()', function(){
         var block,
-            entity = { elem: 'bar' };
+            entity;
 
         before(function(){
             bd.parse('');
@@ -177,6 +177,7 @@ describe('bem-decl', function() {
 
         beforeEach(function(){
             block = { block: 'b-foo' };
+            entity = { elem: 'bar' };
         });
 
         it('should add "elem" key to empty block', function(){
@@ -185,7 +186,7 @@ describe('bem-decl', function() {
             got.should.be.eql({ block: 'b-foo', elem: 'bar' });
         });
 
-        it('should add "elems" key to empty block', function(){
+        it('should cast "elem" to "elems" if element not exists', function(){
             block.elem = 'quux';
 
             var got = bd.handleElemOnly(block, entity);
@@ -193,12 +194,56 @@ describe('bem-decl', function() {
             got.should.be.eql({ block: 'b-foo', elems: [ 'quux', 'bar' ] });
         });
 
-        it('should not pluralize key for the same element', function(){
+        it('should not cast "elem" to "elems" if element exists', function(){
             block.elem = 'bar';
 
             var got = bd.handleElemOnly(block, entity);
 
             got.should.be.eql({ block: 'b-foo', elem: 'bar' });
+        });
+
+        it('should not add existed element to "elems"', function(){
+            block.elems = [ 'bar', 'qux' ];
+
+            var got = bd.handleElemOnly(block, entity);
+
+            got.should.be.eql({ block: 'b-foo', elems: [ 'bar', 'qux' ] });
+        });
+
+        it('should add non-existent element to "elems"', function(){
+            block.elems = [ 'qux', 'quux' ];
+
+            var got = bd.handleElemOnly(block, entity);
+
+            got.should.be.eql({ block: 'b-foo', elems: [ 'qux', 'quux', 'bar' ] });
+        });
+
+        it('should add non-existent element (as object) to "elems"', function(){
+            block.elems = [ { elem: 'qux' } ];
+
+            var got = bd.handleElemOnly(block, entity);
+
+            got.should.be.eql({
+                block: 'b-foo',
+                elems: [
+                    { elem: 'qux' },
+                    { elem: 'bar' }
+                ]
+            });
+        });
+
+        it('should not add existed element (as object) to "elems"', function(){
+            block.elems = [ { elem: 'bar' }, { elem: 'qux' } ];
+
+            var got = bd.handleElemOnly(block, entity);
+
+            got.should.be.eql({
+                block: 'b-foo',
+                elems: [
+                    { elem: 'bar' },
+                    { elem: 'qux' }
+                ]
+            });
         });
     });
 
