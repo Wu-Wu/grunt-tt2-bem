@@ -17,6 +17,56 @@ var loadFixture = function (name) {
 
 describe('bem-decl', function() {
 
+    describe('push()', function(){
+        afterEach(function(){
+            bd.stash = [];
+            bd.seen  = {};
+        });
+
+        it('should parse valid class', function(){
+            bd.push('b-foo');
+            bd.stash.should.have.length(1);
+        });
+
+        it('should catch invalid class', function(){
+            bd.push('b-fo%');
+            bd.stash.should.have.length(0);
+        });
+
+        it('should add to seen blocks', function(){
+            bd.push('b-foo');
+            bd.seen.should.be.eql({ 'b-foo': true });
+        });
+
+        it('should not add to seen blocks if elem exists', function(){
+            bd.push('b-foo__bar');
+            bd.seen.should.be.eql({});
+        });
+
+        it('should not add to seen blocks if mod exists', function(){
+            bd.push('b-foo_bar');
+            bd.seen.should.be.eql({});
+        });
+
+        it('should not add to seen blocks if elem & mod exists', function(){
+            bd.push('b-foo__bar_baz_qux');
+            bd.seen.should.be.eql({});
+        });
+
+        it('should not add to seen blocks if block already added', function(){
+            bd.seen = { 'b-foo' : true };
+            bd.push('b-foo');
+            bd.stash.should.have.length(1);
+        });
+
+        it('should not add to seen blocks if block already added, elem and mod exists', function(){
+            bd.seen = { 'b-foo' : true };
+            bd.push('b-foo__bar_baz_qux');
+            bd.stash.should.have.length(1);
+        });
+
+    });
+
     describe('toMod()', function(){
         it('should return "mods" for non-boolean mod', function(){
             var entity = {
