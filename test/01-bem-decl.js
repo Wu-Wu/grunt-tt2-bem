@@ -64,7 +64,30 @@ describe('bem-decl', function() {
             bd.push('b-foo__bar_baz_qux');
             bd.stash.should.have.length(1);
         });
+    });
 
+    describe('filter()', function(){
+        beforeEach(function(){
+            bd.stash = [
+                { block: 'b-foo', elem: 'bar', modName: undefined, modVal: undefined },
+                { block: 'b-bar', elem: 'foo', modName: undefined, modVal: undefined },
+            ];
+            bd.seen = {
+                'b-foo' : true,
+                'b-bar' : true
+            };
+        });
+
+        it('should pass all seen blocks', function(){
+            bd.filter();
+            bd.stash.should.have.length(2);
+        });
+
+        it('should reset not seen blocks', function(){
+            delete bd.seen['b-bar'];
+            bd.filter();
+            bd.stash[1].should.be.eql(false);
+        });
     });
 
     describe('toMod()', function(){
