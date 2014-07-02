@@ -584,47 +584,41 @@ describe('bem-decl', function() {
             bd.clear();
         });
 
-        describe('found()', function(){
-            it('should return correct length list of entities', function() {
-                bd.found().should.have.length(4);
-            });
-
-            it('should deeply match found entities', function() {
-                bd.found().should.be.eql([
-                    'b-text',
-                    'b-text_size_15',
-                    'b-foo',
-                    'b-foo__bar'
-                ]);
-            });
+        it('should return correct length list of found entities', function() {
+            bd.found().should.have.length(4);
         });
 
-        describe('parsed()', function(){
-            it('should return correct length list of blocks', function() {
-                bd.parsed().should.have.length(4);
-            });
-
-            it('should deeply match parsed blocks', function() {
-                bd.parsed().should.be.eql([
-                    { block: 'b-text', elem: null, modName: null, modVal: null },
-                    { block: 'b-text', elem: null, modName: 'size', modVal: '15' },
-                    { block: 'b-foo', elem: null, modName: null, modVal: null },
-                    { block: 'b-foo', elem: 'bar', modName: null, modVal: null }
-                ]);
-            });
+        it('should deeply match found entities', function() {
+            bd.found().should.be.eql([
+                'b-text',
+                'b-text_size_15',
+                'b-foo',
+                'b-foo__bar'
+            ]);
         });
 
-        describe('decl()', function(){
-            it('should return correct length list of blocks', function() {
-                bd.decl().should.have.length(2);
-            });
+        it('should return correct length list of parsed blocks', function() {
+            bd.parsed().should.have.length(4);
+        });
 
-            it('should return correct declaration', function() {
-                bd.decl().should.be.eql([
-                    { block: 'b-text', mods: [ { mod: 'size', val: 15 } ] },
-                    { block: 'b-foo', elem: 'bar' }
-                ]);
-            });
+        it('should deeply match parsed blocks', function() {
+            bd.parsed().should.be.eql([
+                { block: 'b-text', elem: null, modName: null, modVal: null },
+                { block: 'b-text', elem: null, modName: 'size', modVal: '15' },
+                { block: 'b-foo', elem: null, modName: null, modVal: null },
+                { block: 'b-foo', elem: 'bar', modName: null, modVal: null }
+            ]);
+        });
+
+        it('should return correct length of declaration', function() {
+            bd.decl().should.have.length(2);
+        });
+
+        it('should return correct declaration', function() {
+            bd.decl().should.be.eql([
+                { block: 'b-text', mods: [ { mod: 'size', val: 15 } ] },
+                { block: 'b-foo', elem: 'bar' }
+            ]);
         });
     });
 
