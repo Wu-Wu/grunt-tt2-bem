@@ -17,6 +17,29 @@ var loadFixture = function (name) {
 
 describe('bem-decl', function() {
 
+    describe('clear()', function(){
+        beforeEach(function(){
+            bd.stash = [ { block: 'b-foo', elem: undefined, modName: undefined, modVal: undefined } ];
+            bd.seen  = { 'b-foo' : true };
+            bd.matched = [ 'b-foo' ];
+        });
+
+        it('should have an empty stash list', function(){
+            bd.clear();
+            bd.stash.should.be.eql([]);
+        });
+
+        it('should have an empty seen hash', function(){
+            bd.clear();
+            bd.seen.should.be.eql({});
+        });
+
+        it('should have an empty matched list', function(){
+            bd.clear();
+            bd.matched.should.be.eql([]);
+        });
+    });
+
     describe('push()', function(){
         afterEach(function(){
             bd.stash = [];
@@ -119,6 +142,24 @@ describe('bem-decl', function() {
                 key: 'mod',
                 val: 'foo'
             });
+        });
+    });
+
+    describe('found()', function(){
+        beforeEach(function(){
+            bd.clear();
+        });
+
+        it('should return non empty matched list', function(){
+            bd.matched = [ 'b-foo', 'b-bar__baz' ];
+            bd.found().should.be.eql([
+                'b-foo',
+                'b-bar__baz'
+            ]);
+        });
+
+        it('should return empty mathed list', function(){
+            bd.found().should.have.length(0);
         });
     });
 
@@ -498,13 +539,13 @@ describe('bem-decl', function() {
             bd.clear();
         });
 
-        describe('listFound()', function(){
+        describe('found()', function(){
             it('should return correct length list of entities', function() {
-                bd.listFound().should.have.length(4);
+                bd.found().should.have.length(4);
             });
 
             it('should deeply match found entities', function() {
-                bd.listFound().should.be.eql([
+                bd.found().should.be.eql([
                     'b-text',
                     'b-text_size_15',
                     'b-foo',
@@ -513,13 +554,13 @@ describe('bem-decl', function() {
             });
         });
 
-        describe('listParsed()', function(){
+        describe('parsed()', function(){
             it('should return correct length list of blocks', function() {
-                bd.listParsed().should.have.length(4);
+                bd.parsed().should.have.length(4);
             });
 
             it('should deeply match parsed blocks', function() {
-                bd.listParsed().should.be.eql([
+                bd.parsed().should.be.eql([
                     { block: 'b-text', elem: null, modName: null, modVal: null },
                     { block: 'b-text', elem: null, modName: 'size', modVal: '15' },
                     { block: 'b-foo', elem: null, modName: null, modVal: null },
@@ -597,19 +638,19 @@ describe('bem-decl', function() {
         });
 
         it('should return correct length list of entities', function() {
-            bd.listFound().should.have.length(basic.expected.listFound.length);
+            bd.found().should.have.length(basic.expected.found.length);
         });
 
         it('should deeply match found entities', function() {
-            bd.listFound().should.be.eql(basic.expected.listFound);
+            bd.found().should.be.eql(basic.expected.found);
         });
 
         it('should return correct length list of blocks', function() {
-            bd.listParsed().should.have.length(basic.expected.listParsed.length);
+            bd.parsed().should.have.length(basic.expected.parsed.length);
         });
 
         it('should deeply match parsed blocks', function() {
-            bd.listParsed().should.be.eql(basic.expected.listParsed);
+            bd.parsed().should.be.eql(basic.expected.parsed);
         });
     });
 

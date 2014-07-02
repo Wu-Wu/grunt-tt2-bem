@@ -1,5 +1,5 @@
 {
-    "listFound" : [
+    "found" : [
         "b-page__footer-hide",
         "b-content_indent-top_none",
         "b-content_indent-bottom_none",
@@ -19,7 +19,7 @@
         "b-checkmany-adwords__corner",
         "b-checkmany-adwords__title"
     ],
-    "listParsed" : [
+    "parsed" : [
         {
             "block": "b-text",
             "elem": null,
