@@ -56,5 +56,83 @@
                 ]
             }
         ]
+    },
+    "caseG" : {
+        "block" : "b-foo",
+        "elems" : [
+            {
+                "elem" : "bar",
+                "mods" : [
+                    { "mod" : "bar", "val" : "baz" },
+                    { "mod" : "qux", "val" : "quux" }
+                ]
+            }
+        ]
+    },
+    "caseH" : {
+        "block" : "b-foo",
+        "elems" : [
+            {
+                "elem" : "bar",
+                "mods" : [
+                    { "mod" : "qux", "vals" : [ "baz", "quux" ] }
+                ]
+            }
+        ]
+    },
+    "caseI" : {
+        "block" : "b-foo",
+        "elems" : [
+            {
+                "elem" : "bar",
+                "mods" : [
+                    { "mod" : "qux", "val" : "quux" }
+                ]
+            }
+        ]
+    },
+    "caseJ" : {
+        "block" : "b-foo",
+        "elems" : [
+            {
+                "elem" : "bar",
+                "mods" : [
+                    { "mod" : "qux", "vals" : [ "aaa", "bbb", "quux" ] }
+                ]
+            }
+        ]
+    },
+    "caseK" : {
+        "block" : "b-foo",
+        "elems" : [
+            {
+                "elem" : "bar",
+                "mods" : [
+                    { "mod" : "qux", "vals" : [ "quux", "xxx" ] }
+                ]
+            }
+        ]
+    },
+    "caseL" : {
+        "block" : "b-foo",
+        "elems" : [
+            {
+                "elem" : "bar",
+                "mods" : [
+                    { "mod" : "qux", "vals" : [ true, "quux" ] }
+                ]
+            }
+        ]
+    },
+    "caseM" : {
+        "block" : "b-foo",
+        "elems" : [
+            {
+                "elem" : "bar",
+                "mods" : [
+                    { "mod" : "qux" }
+                ]
+            }
+        ]
     }
 }

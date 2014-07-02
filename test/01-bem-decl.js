@@ -322,13 +322,13 @@ describe('bem-decl', function() {
             entity = { elem: 'bar', modName: 'qux', modVal: true };
         });
 
-        it('should wrap to "elems" for boolean "mod" and "elem"', function(){
+        it('should wrap to "elems" for boolean "mod" and "elem" (A)', function(){
             var got = bd.handleElemMod(block, entity);
 
             got.should.be.eql(em.expected.caseA);
         });
 
-        it('should wrap to "elems" for non-boolean "mod" and "elem"', function(){
+        it('should wrap to "elems" for non-boolean "mod" and "elem" (B)', function(){
             entity.modVal = 'quux';
 
             var got = bd.handleElemMod(block, entity);
@@ -336,7 +336,7 @@ describe('bem-decl', function() {
             got.should.be.eql(em.expected.caseB);
         });
 
-        it('should transform to "elems" existed "elem" boolean "mod"', function(){
+        it('should transform to "elems" existed "elem" boolean "mod" (C)', function(){
             block.elem = 'foo';
 
             var got = bd.handleElemMod(block, entity);
@@ -344,7 +344,7 @@ describe('bem-decl', function() {
             got.should.be.eql(em.expected.caseC);
         });
 
-        it('should transform to "elems" existed "elem" for non-boolean "mod"', function(){
+        it('should transform to "elems" existed "elem" for non-boolean "mod" (D)', function(){
             block.elem = 'foo';
             entity.modVal = 'quux';
 
@@ -353,7 +353,7 @@ describe('bem-decl', function() {
             got.should.be.eql(em.expected.caseD);
         });
 
-        it('should add to "elems" non-existent "elem" w/ boolean "mod"', function(){
+        it('should add to "elems" non-existent "elem" w/ boolean "mod" (E)', function(){
             block.elems = [ { elem: 'foo' } ];
 
             var got = bd.handleElemMod(block, entity);
@@ -361,13 +361,89 @@ describe('bem-decl', function() {
             got.should.be.eql(em.expected.caseE);
         });
 
-        it('should add to "elems" non-existent "elem" w/ non-boolean "mod"', function(){
+        it('should add to "elems" non-existent "elem" w/ non-boolean "mod" (F)', function(){
             block.elems = [ { elem: 'foo' } ];
             entity.modVal = 'quux';
 
             var got = bd.handleElemMod(block, entity);
 
             got.should.be.eql(em.expected.caseF);
+        });
+
+        it('should add to "mods" non-existent "mod" w/ non-boolean "val" (G)', function(){
+            block.elems = [
+                { elem: 'bar', mods: [ { mod: 'bar', val: 'baz' } ] }
+            ];
+            entity.modVal = 'quux';
+
+            var got = bd.handleElemMod(block, entity);
+
+            got.should.be.eql(em.expected.caseG);
+        });
+
+        it('should cast "val" to "vals" for non-existent "val" (H)', function(){
+            block.elems = [
+                { elem: 'bar', mods: [ { mod: 'qux', val: 'baz' } ] }
+            ];
+            entity.modVal = 'quux';
+
+            var got = bd.handleElemMod(block, entity);
+
+            got.should.be.eql(em.expected.caseH);
+        });
+
+        it('should not cast "val" to "vals" existed "val" (I)', function(){
+            block.elems = [
+                { elem: 'bar', mods: [ { mod: 'qux', val: 'quux' } ] }
+            ];
+            entity.modVal = 'quux';
+
+            var got = bd.handleElemMod(block, entity);
+
+            got.should.be.eql(em.expected.caseI);
+        });
+
+        it('should add to "vals" non-existent "val" (J)', function(){
+            block.elems = [
+                { elem: 'bar', mods: [ { mod: 'qux', vals: [ 'aaa', 'bbb' ] } ] }
+            ];
+            entity.modVal = 'quux';
+
+            var got = bd.handleElemMod(block, entity);
+
+            got.should.be.eql(em.expected.caseJ);
+        });
+
+        it('should not add to "vals" existed "val" (K)', function(){
+            block.elems = [
+                { elem: 'bar', mods: [ { mod: 'qux', vals: [ 'quux', 'xxx' ] } ] }
+            ];
+            entity.modVal = 'quux';
+
+            var got = bd.handleElemMod(block, entity);
+
+            got.should.be.eql(em.expected.caseK);
+        });
+
+        it('should cast empty to "vals" non-existent "val" (L)', function(){
+            block.elems = [
+                { elem: 'bar', mods: [ { mod: 'qux' } ] }
+            ];
+            entity.modVal = 'quux';
+
+            var got = bd.handleElemMod(block, entity);
+
+            got.should.be.eql(em.expected.caseL);
+        });
+
+        it('should not cast empty to "vals" the same "val" (M)', function(){
+            block.elems = [
+                { elem: 'bar', mods: [ { mod: 'qux' } ] }
+            ];
+
+            var got = bd.handleElemMod(block, entity);
+
+            got.should.be.eql(em.expected.caseM);
         });
     });
 
