@@ -445,6 +445,48 @@ describe('bem-decl', function() {
 
             got.should.be.eql(em.expected.caseM);
         });
+
+        it('should cast "mod" to "mods" for different "mod" (N)', function(){
+            block.elems = [
+                { elem: 'bar', mod: 'aaa' }
+            ];
+
+            var got = bd.handleElemMod(block, entity);
+
+            got.should.be.eql(em.expected.caseN);
+        });
+
+        it('should cast "mod" to "mods" for different non-boolean "mod" (O)', function(){
+            block.elems = [
+                { elem: 'bar', mod: 'aaa' }
+            ];
+            entity.modVal = 'quux';
+
+            var got = bd.handleElemMod(block, entity);
+
+            got.should.be.eql(em.expected.caseO);
+        });
+
+        it('should not cast "mod" to "mods" for the same boolean "mod" (P)', function(){
+            block.elems = [
+                { elem: 'bar', mod: 'qux' }
+            ];
+
+            var got = bd.handleElemMod(block, entity);
+
+            got.should.be.eql(em.expected.caseP);
+        });
+
+        it('should cast "mod" to "mods" for the same non-boolean "mod" (Q)', function(){
+            block.elems = [
+                { elem: 'bar', mod: 'qux' }
+            ];
+            entity.modVal = 'quux';
+
+            var got = bd.handleElemMod(block, entity);
+
+            got.should.be.eql(em.expected.caseQ);
+        });
     });
 
     describe('inline (simple)', function(){

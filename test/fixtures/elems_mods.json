@@ -134,5 +134,49 @@
                 ]
             }
         ]
+    },
+    "caseN" : {
+        "block" : "b-foo",
+        "elems" : [
+            {
+                "elem" : "bar",
+                "mods" : [
+                    { "mod" : "aaa" },
+                    { "mod" : "qux" }
+                ]
+            }
+        ]
+    },
+    "caseO" : {
+        "block" : "b-foo",
+        "elems" : [
+            {
+                "elem" : "bar",
+                "mods" : [
+                    { "mod" : "aaa" },
+                    { "mod" : "qux", "val" : "quux" }
+                ]
+            }
+        ]
+    },
+    "caseP" : {
+        "block" : "b-foo",
+        "elems" : [
+            {
+                "elem" : "bar",
+                "mod" : "qux"
+            }
+        ]
+    },
+    "caseQ" : {
+        "block" : "b-foo",
+        "elems" : [
+            {
+                "elem" : "bar",
+                "mods" : [
+                    { "mod" : "qux", "vals" : [ true, "quux" ] }
+                ]
+            }
+        ]
     }
 }
