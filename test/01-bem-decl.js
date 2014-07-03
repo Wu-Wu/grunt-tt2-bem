@@ -89,7 +89,7 @@ describe('bem-decl', function() {
         });
     });
 
-    describe('filter()', function(){
+    describe('parsed()', function(){
         beforeEach(function(){
             bd.stash = [
                 { block: 'b-foo', elem: 'bar', modName: undefined, modVal: undefined },
@@ -97,19 +97,35 @@ describe('bem-decl', function() {
             ];
             bd.seen = {
                 'b-foo' : true,
-                'b-bar' : true
+                'b-bar' : true,
+                'b-baz' : true
             };
         });
 
-        it('should pass all seen blocks', function(){
-            bd.filter();
-            bd.stash.should.have.length(2);
+        it('should return correct count of blocks', function(){
+            bd.parsed().should
+                            .containDeep([ { block: 'b-foo' }, { block: 'b-bar' } ])
+                            .and.have.length(2);
         });
 
-        it('should reset not seen blocks', function(){
-            delete bd.seen['b-bar'];
-            bd.filter();
-            bd.stash[1].should.be.eql(false);
+        it('should filter duplicate blocks', function(){
+            bd.stash.push({ block: 'b-baz', elem: 'aaa', modName: undefined, modVal: undefined });
+            bd.stash.push({ block: 'b-baz', elem: 'bbb', modName: 'ccc', modVal: undefined });
+            bd.stash.push({ block: 'b-baz', elem: 'aaa', modName: undefined, modVal: undefined });
+            bd.stash.push({ block: 'b-baz', elem: 'bbb', modName: 'ccc', modVal: undefined });
+
+            bd.parsed().should
+                            .containDeep([ { block: 'b-foo' }, { block: 'b-bar' }, { block: 'b-baz' } ])
+                            .and.have.length(4);
+        });
+
+        it('should filter not seen blocks', function(){
+            bd.stash.push({ block: 'b-xxx', elem: 'ccc', modName: 'ddd', modVal: 'eee' });
+            bd.stash.push({ block: 'b-zzz', elem: 'aaa', modName: undefined, modVal: undefined });
+
+            bd.parsed().should
+                            .not.containDeep([ { block: 'b-xxx' }, { block: 'b-zzz' } ])
+                            .and.have.length(2);
         });
     });
 
