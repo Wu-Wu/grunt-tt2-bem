@@ -101,6 +101,15 @@ describe('bem-decl', function() {
                 'b-bar' : true,
                 'b-baz' : true
             };
+            bd.allowed = [
+                'b-foo',
+                'b-bar',
+                'b-baz'
+            ];
+        });
+
+        after(function(){
+            bd.allowed = [];
         });
 
         it('should return correct count of blocks', function(){
@@ -126,6 +135,15 @@ describe('bem-decl', function() {
 
             bd.parsed().should
                             .not.containDeep([ { block: 'b-xxx' }, { block: 'b-zzz' } ])
+                            .and.have.length(2);
+        });
+
+        it('should filter not allowed blocks', function(){
+            bd.seen['b-xxx'] = true;
+            bd.stash.push({ block: 'b-xxx', elem: 'ccc', modName: 'ddd', modVal: 'eee' });
+
+            bd.parsed().should
+                            .not.containDeep([ { block: 'b-xxx' } ])
                             .and.have.length(2);
         });
     });
