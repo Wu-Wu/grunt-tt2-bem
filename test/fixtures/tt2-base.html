@@ -1,0 +1,17 @@
+<div>
+[%-
+    aa = 1;INCLUDE   'b-foo.inc'
+            a1 => 123;
+-%]
+
+[% PROCESS 'foo/bar.inc' %]
+
+<p>
+[%~
+    INCLUDE
+        "foo-inc.tt2";
+%]
+</p>
+
+[% PROCESS html~12@2x_1.inc %]
+</div>
