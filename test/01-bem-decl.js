@@ -2,7 +2,8 @@
 //
 // bem-decl.js tests
 //
-var bd = require('../lib/bem-decl'),
+var BemDecl = require('../lib/bem-decl'),
+    bd = new BemDecl({ debug : true }),
     should = require('should'),
     fs = require('fs');
 
