@@ -34,7 +34,8 @@
   },
   "dependencies": {
     "lodash": "~2.4.1",
-    "bem-naming": "0.0.3"
+    "bem-naming": "0.0.3",
+    "tail-call": "0.0.1"
   },
   "devDependencies": {
     "grunt": "~0.4.1",
