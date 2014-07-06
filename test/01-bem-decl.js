@@ -298,7 +298,7 @@ describe('bem-decl', function() {
             entity = { modName: 'bar', modVal: 'baz' };
         });
 
-        it('should add "mods" key for non-boolean "mod"', function(){
+        it('should add to "mods" for non-boolean "mod"', function(){
             var got = bd.handleModOnly(block, entity);
 
             got.should.be.eql({
@@ -309,7 +309,7 @@ describe('bem-decl', function() {
             });
         });
 
-        it('should add "mod" key for boolean "mod"', function(){
+        it('should add to "mod" for boolean "mod"', function(){
             entity.modVal = true;
 
             var got = bd.handleModOnly(block, entity);
@@ -317,7 +317,7 @@ describe('bem-decl', function() {
             got.should.be.eql({ block: 'b-foo', mod: 'bar' });
         });
 
-        it('should cast list of "mods" for another boolean "mod"', function(){
+        it('should cast "mod" to "mods" for another boolean "mod"', function(){
             entity.modVal = true;
             block.mod = 'quux';
 
@@ -332,7 +332,7 @@ describe('bem-decl', function() {
             });
         });
 
-        it('should cast list of "mods" for another non-boolean "mod"', function(){
+        it('should cast "mod" to "mods" for another non-boolean "mod"', function(){
             block.mod = 'quux';
 
             var got = bd.handleModOnly(block, entity);
@@ -346,7 +346,7 @@ describe('bem-decl', function() {
             });
         });
 
-        it('should change to "vals" key for the same non-boolean "mod"', function(){
+        it('should cast "val" to "vals" for the same non-boolean "mod"', function(){
             block.mod = 'bar';
 
             var got = bd.handleModOnly(block, entity);
@@ -375,7 +375,7 @@ describe('bem-decl', function() {
             });
         });
 
-        it('should change to "vals" if "mod" already exists', function(){
+        it('should cast "val" to "vals" for existed "mod"', function(){
             block.mods = [
                 { mod: 'quux', val: '42' },
                 { mod: 'bar', val: true }
@@ -392,7 +392,7 @@ describe('bem-decl', function() {
             });
         });
 
-        it('should add to "vals" if "mod" already exists', function(){
+        it('should add to "vals" for existed "mod"', function(){
             block.mods = [
                 { mod: 'bar', vals: [ 'a', 'b' ] }
             ];
@@ -457,7 +457,7 @@ describe('bem-decl', function() {
             got.should.be.eql(em.expected.caseB);
         });
 
-        it('should transform to "elems" existed "elem" boolean "mod" (C)', function(){
+        it('should cast "elem" to "elems" for boolean "mod" and "elem" (C)', function(){
             block.elem = 'foo';
 
             var got = bd.handleElemMod(block, entity);
@@ -465,7 +465,7 @@ describe('bem-decl', function() {
             got.should.be.eql(em.expected.caseC);
         });
 
-        it('should transform to "elems" existed "elem" for non-boolean "mod" (D)', function(){
+        it('should cast "elem" to "elems" for non-boolean "mod" and "elem" (D)', function(){
             block.elem = 'foo';
             entity.modVal = 'quux';
 
@@ -474,7 +474,7 @@ describe('bem-decl', function() {
             got.should.be.eql(em.expected.caseD);
         });
 
-        it('should add to "elems" non-existent "elem" w/ boolean "mod" (E)', function(){
+        it('should add to "elems" non-existent "elem" with boolean "mod" (E)', function(){
             block.elems = [ { elem: 'foo' } ];
 
             var got = bd.handleElemMod(block, entity);
@@ -482,7 +482,7 @@ describe('bem-decl', function() {
             got.should.be.eql(em.expected.caseE);
         });
 
-        it('should add to "elems" non-existent "elem" w/ non-boolean "mod" (F)', function(){
+        it('should add to "elems" non-existent "elem" with non-boolean "mod" (F)', function(){
             block.elems = [ { elem: 'foo' } ];
             entity.modVal = 'quux';
 
@@ -491,7 +491,7 @@ describe('bem-decl', function() {
             got.should.be.eql(em.expected.caseF);
         });
 
-        it('should add to "mods" non-existent "mod" w/ non-boolean "val" (G)', function(){
+        it('should add to "mods" non-existent non-boolean "mod" (G)', function(){
             block.elems = [
                 { elem: 'bar', mods: [ { mod: 'bar', val: 'baz' } ] }
             ];
@@ -502,7 +502,7 @@ describe('bem-decl', function() {
             got.should.be.eql(em.expected.caseG);
         });
 
-        it('should cast "val" to "vals" for non-existent "val" (H)', function(){
+        it('should cast "val" to "vals" for non-existent "val" the same "mod" (H)', function(){
             block.elems = [
                 { elem: 'bar', mods: [ { mod: 'qux', val: 'baz' } ] }
             ];
@@ -513,7 +513,7 @@ describe('bem-decl', function() {
             got.should.be.eql(em.expected.caseH);
         });
 
-        it('should not cast "val" to "vals" existed "val" (I)', function(){
+        it('should not cast "val" to "vals" the same "mod" for existed "val" (I)', function(){
             block.elems = [
                 { elem: 'bar', mods: [ { mod: 'qux', val: 'quux' } ] }
             ];
@@ -524,7 +524,7 @@ describe('bem-decl', function() {
             got.should.be.eql(em.expected.caseI);
         });
 
-        it('should add to "vals" non-existent "val" (J)', function(){
+        it('should add to "vals" non-existent "val" for the same "mod" (J)', function(){
             block.elems = [
                 { elem: 'bar', mods: [ { mod: 'qux', vals: [ 'aaa', 'bbb' ] } ] }
             ];
@@ -535,7 +535,7 @@ describe('bem-decl', function() {
             got.should.be.eql(em.expected.caseJ);
         });
 
-        it('should not add to "vals" existed "val" (K)', function(){
+        it('should not add to "vals" existed "val" for the same "mod" (K)', function(){
             block.elems = [
                 { elem: 'bar', mods: [ { mod: 'qux', vals: [ 'quux', 'xxx' ] } ] }
             ];
@@ -546,7 +546,7 @@ describe('bem-decl', function() {
             got.should.be.eql(em.expected.caseK);
         });
 
-        it('should cast empty to "vals" non-existent "val" (L)', function(){
+        it('should cast empty to "vals" non-existent "val" for the same "mod" (L)', function(){
             block.elems = [
                 { elem: 'bar', mods: [ { mod: 'qux' } ] }
             ];
@@ -557,7 +557,7 @@ describe('bem-decl', function() {
             got.should.be.eql(em.expected.caseL);
         });
 
-        it('should not cast empty to "vals" the same "val" (M)', function(){
+        it('should not cast empty to "vals" the same "val" for the same "mod" (M)', function(){
             block.elems = [
                 { elem: 'bar', mods: [ { mod: 'qux' } ] }
             ];
