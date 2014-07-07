@@ -134,4 +134,38 @@ describe('template-engine', function(){
             tree.stash[4].content.should.be.eql('<span class="foo"></span>\n\n[%~\n    PROCESS xxx.tt2;\n%]\n');
         });
     });
+
+    describe('parse()', function(){
+        it('should return merged content if everything resolved', function() {
+            var template = '<div class="b-xxx">' +
+                            ' [%- INCLUDE \'xxx.tt2\' a1 => 123; -%]' +
+                            '</div>',
+                expected = template + '\n' +
+                '<!--\n' +
+                ' parent: root @ pos 24\n' +
+                ' resolved: ' + te.options.root + '/xxx.tt2\n' +
+                '-->\n' +
+                '<a class="b-bar__baz">&nbsp;</a>\n';
+
+            var result = te.parse(template);
+
+            (result !== undefined).should.be.eql(true);
+            result.should.be.eql(expected);
+        });
+
+        it('should return errors list if anything not resolved', function() {
+            var template = '<div class="b-xxx">' +
+                            ' [%- INCLUDE \'xxx1.tt2\' a1 => 123; -%] [% PROCESS z.inc; INCLUDE "xxx.tt2"; %]' +
+                            '</div>',
+                expected = [
+                    'root @ pos 24: "INCLUDE xxx1.tt2"',
+                    'root @ pos 61: "PROCESS z.inc"'
+                ];
+
+            var result = te.parse(template);
+
+            (result === undefined).should.be.eql(true);
+            te.errors().should.be.eql(expected);
+        });
+    });
 });
