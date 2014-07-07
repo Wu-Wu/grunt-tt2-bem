@@ -18,13 +18,43 @@ var loadFixture = function (name) {
 
 describe('template-engine', function(){
 
-    it('should be true', function(){
-        var aaa = loadFixture('tt2-base');
+    describe('clear()', function(){
+        before(function(){
+            te.stash = [ 1, 2 ];
+            te.seen = { 'foo.inc': true };
+            te.clear();
+        });
 
-        te.process(aaa.template);
+        it('should clear stash list', function(){
+            te.stash.should.be.eql([]);
+        });
 
-        true.should.be.eql(true);
+        it('should clear seen hash', function(){
+            te.seen.should.be.eql({});
+        });
     });
 
+    describe('resolvePath()', function(){
+        it('should return full path if file name exists', function(){
+            te.resolvePath('blocks/b-foo.tt2').should.endWith('/includes/blocks/b-foo.tt2');
+        });
 
+        it('should return first resolved file name', function(){
+            // test/fixtures/b-foo.inc
+            // test/fixtures/includes/b-foo.inc
+            te.resolvePath('b-foo.inc').should.endWith('/fixtures/b-foo.inc');
+        });
+
+        it('should return false if file name does not exists', function(){
+            te.resolvePath('blocks/non-existent.tt2').should.eql(false);
+        });
+    });
+
+    // it('should be true', function(){
+    //     var aaa = loadFixture('tt2-base');
+
+    //     te.process(aaa.template);
+
+    //     true.should.be.eql(true);
+    // });
 });
