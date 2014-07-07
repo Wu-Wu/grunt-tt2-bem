@@ -5,7 +5,9 @@
 var TemplateEngine = require('../lib/template-engine'),
     te = new TemplateEngine({ debug : true, root: 'test/fixtures', includes: [ '.', 'includes' ] }),
     should = require('should'),
-    fs = require('fs');
+    fs = require('fs'),
+    _ = require('lodash'),
+    processTemplate = require('../lib/template-engine').processTemplate;
 
 require('mocha');
 
@@ -50,11 +52,86 @@ describe('template-engine', function(){
         });
     });
 
-    // it('should be true', function(){
-    //     var aaa = loadFixture('tt2-base');
+    describe('processTemplate()', function(){
+        var template,
+            tree;
 
-    //     te.process(aaa.template);
+        before(function(){
+            te.clear();
 
-    //     true.should.be.eql(true);
-    // });
+            template = '<div>\
+                [% INCLUDE "b-foo.inc" %]\
+                    [% \
+                        SET foo = bar + 1 ;\
+                        PROCESS \
+                    \
+                    xxx.tt2;; foo ? bar : qux\
+                    %] [%~ INCLUDE     \'xxx.tt2\' %]\
+                [% INCLUDE non-existent.inc -%]\
+            </div>';
+
+            tree = {
+                re: te.re,
+                seen: te.seen,
+                stash: te.stash,
+                resolvePath: _.bind(te.resolvePath, te)
+            };
+
+            processTemplate(tree, template, 'root');
+        });
+
+        it('should return correct seen hash', function(){
+            tree.seen.should.be.eql({
+                'b-foo.inc': true,
+                'xxx.tt2': true,
+                'non-existent.inc': true,
+                'blocks/b-foo.tt2': true,
+                'blocks/1.inc': true
+            });
+        });
+
+        it('should return correct items length of stash', function(){
+            tree.stash.should.have.a.length(5);
+        });
+
+        it('should find particular amount of INCLUDE tokens', function(){
+            _.filter(tree.stash, { token: 'INCLUDE' }).should.have.a.length(3);
+        });
+
+        it('should find particular amount of PROCESS tokens', function(){
+            _.filter(tree.stash, { token: 'PROCESS' }).should.have.a.length(2);
+        });
+
+        it('should find particular amount of resolved files', function(){
+            _.filter(tree.stash, 'resolved').should.have.a.length(4);
+        });
+
+        it('should find particular amount of not resolved files', function(){
+            _.filter(tree.stash, { resolved: false }).should.have.a.length(1);
+        });
+
+        it('should find particular amount of unique links at root', function(){
+            _.filter(tree.stash, { parent: 'root' }).should.have.a.length(3);
+        });
+
+        it('should return correct content for item #0', function(){
+            tree.stash[0].content.should.be.eql('<div>\n[% INCLUDE \'blocks/b-foo.tt2\' %]\n</div>\n');
+        });
+
+        it('should return correct content for item #1', function(){
+            tree.stash[1].content.should.be.eql('<a class="b-bar__baz">&nbsp;</a>\n');
+        });
+
+        it('should return correct content for item #2', function(){
+            tree.stash[2].content.should.be.eql('<!-- not resolved: "non-existent.inc" -->');
+        });
+
+        it('should return correct content for item #3', function(){
+            tree.stash[3].content.should.be.eql('<a class="b-bar__baz">[% PROCESS "blocks/1.inc" %]</a>\n');
+        });
+
+        it('should return correct content for item #4', function(){
+            tree.stash[4].content.should.be.eql('<span class="foo"></span>\n\n[%~\n    PROCESS xxx.tt2;\n%]\n');
+        });
+    });
 });
