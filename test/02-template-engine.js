@@ -24,6 +24,7 @@ describe('template-engine', function(){
         before(function(){
             te.stash = [ 1, 2 ];
             te.seen = { 'foo.inc': true };
+            te.fails = [ 'tom', 'dick', 'harry' ];
             te.clear();
         });
 
@@ -33,6 +34,24 @@ describe('template-engine', function(){
 
         it('should clear seen hash', function(){
             te.seen.should.be.eql({});
+        });
+
+        it('should clear fails list', function(){
+            te.fails.should.be.eql([]);
+        });
+    });
+
+    describe('errors()', function(){
+        before(function(){
+            te.fails = [ 'tom', 'dick', 'harry' ];
+        });
+
+        it('should return correct errors list', function(){
+            te.errors().should.be.eql([
+                'tom',
+                'dick',
+                'harry'
+            ]);
         });
     });
 
