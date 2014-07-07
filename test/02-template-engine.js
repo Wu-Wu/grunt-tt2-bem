@@ -7,7 +7,7 @@ var TemplateEngine = require('../lib/template-engine'),
     should = require('should'),
     fs = require('fs'),
     _ = require('lodash'),
-    processTemplate = require('../lib/template-engine').processTemplate;
+    processTemplate = TemplateEngine.processTemplate;
 
 require('mocha');
 
