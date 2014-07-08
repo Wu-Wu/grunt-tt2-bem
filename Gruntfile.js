@@ -10,6 +10,30 @@
 
 module.exports = function(grunt) {
     grunt.initConfig({
+        jshint: {
+            all: {
+                src: [
+                    'Gruntfile.js',
+                    'lib/**/*.js',
+                    'test/**/*.js'
+                ],
+                options: {
+                    curly: true,
+                    eqeqeq: true,
+                    immed: true,
+                    latedef: true,
+                    newcap: true,
+                    noarg: true,
+                    sub: true,
+                    undef: true,
+                    boss: true,
+                    eqnull: true,
+                    node: true,
+                    laxbreak: true,
+                    multistr: true
+                }
+            }
+        },
         mocha_istanbul: {
             coverage: {
                 src: 'test',
@@ -37,14 +61,15 @@ module.exports = function(grunt) {
         }
     });
 
+    grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-mocha-test');
     grunt.loadNpmTasks('grunt-mocha-istanbul');
     grunt.loadNpmTasks('grunt-coveralls');
 
-    grunt.registerTask('default', 'mochaTest:all');
+    grunt.registerTask('default', 'test');
 
-    grunt.registerTask('test', 'mochaTest:all');
-    grunt.registerTask('coverage', 'mocha_istanbul:coverage');
+    grunt.registerTask('test', [ 'jshint:all', 'mochaTest:all' ]);
+    grunt.registerTask('coverage', [ 'jshint:all', 'mocha_istanbul:coverage' ]);
 
     grunt.registerTask('coveralls-io', [ 'coverage', 'coveralls:all' ]);
 };
