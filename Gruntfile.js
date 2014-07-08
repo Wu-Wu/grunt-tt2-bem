@@ -9,26 +9,42 @@
 "use strict";
 
 module.exports = function(grunt) {
-
-    // Project configuration.
     grunt.initConfig({
-        jshint: {
-            all: [
-                'Gruntfile.js',
-                'tasks/**/*.js'
-            ],
+        mocha_istanbul: {
+            coverage: {
+                src: 'test',
+                options: {
+                    mask: '*.js',
+                    reportFormats: [ 'lcovonly' ],
+                    root: './lib'
+                }
+            }
+        },
+        mochaTest: {
+            all: {
+                src: [ 'test/*.js' ],
+                options: {
+                    reporter: 'spec',
+                    bail: true
+                }
+            }
+        },
+        coveralls: {
             options: {
-                jshintrc: '.jshintrc'
-            },
+                src: 'coverage/lcov.info',
+                force: true
+            }
         }
     });
 
-    grunt.loadTasks('tasks');
+    grunt.loadNpmTasks('grunt-mocha-test');
+    grunt.loadNpmTasks('grunt-mocha-istanbul');
+    grunt.loadNpmTasks('grunt-coveralls');
 
-    grunt.loadNpmTasks('grunt-contrib-jshint');
+    grunt.registerTask('default', 'mochaTest:all');
 
-    grunt.registerTask('test', ['jshint']);
+    grunt.registerTask('test', 'mochaTest:all');
+    grunt.registerTask('coverage', 'mocha_istanbul:coverage');
 
-    grunt.registerTask('default', ['jshint']);
-
+    grunt.registerTask('coveralls', [ 'test', 'coverage', 'coveralls' ]);
 };
