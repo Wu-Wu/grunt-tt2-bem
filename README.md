@@ -23,17 +23,17 @@ One the plugin has been installed, it may be enabled inside your Gruntfile with 
 grunt.loadNpmTasks('grunt-tt2-bem');
 ```
 
-## The "???" task
+## The "bemdecl" task
 
 TODO
 
 ### Overview
 
-In your project's Gruntfile, add a section named `???` to the data object passed into `grunt.initConfig()`.
+In your project's Gruntfile, add a section named `bemdecl` to the data object passed into `grunt.initConfig()`.
 
 ```js
 grunt.initConfig({
-    ???: {
+    bemdecl: {
         some_target: {
             options: {
                 // Target-specific options go here.
@@ -50,7 +50,32 @@ Each target defines a specific task that can be run.
 
 ### Options
 
-TODO
+#### options.root
+Type: `String`
+Default value: `equal to __dirname`
+
+Templates root directory.
+
+#### options.includes
+Type: `Array`
+Default value: `[ '.' ]` (root directory)
+
+List of directories contains include files.
+
+#### options.prefixes
+Type: `Array`
+Default value: `[ 'b', 'i', 'l' ]`
+
+List of BEM prefixes. Will be catch all BEM-blocks started with.
+
+#### options.allowed
+Type: `Array`
+Default value: `[ ]`
+
+List of valid BEM-blocks. Invalid catched blocks will be filtered out from `*.bemdecl.js` files.
+
+*NOTE*: An empty list means that all BEM-blocks considered valid
+
 
 ### Usage Example
 

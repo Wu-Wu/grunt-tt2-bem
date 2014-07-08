@@ -15,7 +15,8 @@ module.exports = function(grunt) {
                 src: [
                     'Gruntfile.js',
                     'lib/**/*.js',
-                    'test/**/*.js'
+                    'test/**/*.js',
+                    'tasks/**/*.js'
                 ],
                 options: {
                     curly: true,
@@ -30,7 +31,8 @@ module.exports = function(grunt) {
                     eqnull: true,
                     node: true,
                     laxbreak: true,
-                    multistr: true
+                    multistr: true,
+                    validthis: true
                 }
             }
         },
@@ -58,9 +60,17 @@ module.exports = function(grunt) {
                 src: 'coverage/lcov.info',
                 force: true
             }
+        },
+        bemdecl: {
+            all: {
+                options: {
+
+                }
+            }
         }
     });
 
+    grunt.loadTasks('tasks');
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-mocha-test');
     grunt.loadNpmTasks('grunt-mocha-istanbul');
@@ -68,7 +78,7 @@ module.exports = function(grunt) {
 
     grunt.registerTask('default', 'test');
 
-    grunt.registerTask('test', [ 'jshint:all', 'mochaTest:all' ]);
+    grunt.registerTask('test', [ 'jshint:all', 'mochaTest:all', 'bemdecl:all' ]);
     grunt.registerTask('coverage', [ 'jshint:all', 'mocha_istanbul:coverage' ]);
 
     grunt.registerTask('coveralls-io', [ 'coverage', 'coveralls:all' ]);
