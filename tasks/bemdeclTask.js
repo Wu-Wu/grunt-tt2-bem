@@ -9,16 +9,35 @@
 "use strict";
 
 module.exports = function (grunt) {
+    var path = require('path'),
+        TemplateEngine = require('../lib/template-engine'),
+        BemDecl = require('../lib/bem-decl'),
+        util = require('util');
 
     function bemDeclTask () {
 
         var options = this.options({
-            root        : __dirname,
+            root        : path.resolve(__dirname, '..'),
             includes    : [ '.' ],
             prefixes    : [ 'b', 'i', 'l' ],
-            allowed     : []
+            allowed     : [],
+            debug       : false
         });
 
+        this.te = new TemplateEngine({
+            debug: options.debug,
+            root: options.root,
+            includes: options.includes
+        });
+
+        this.bd = new BemDecl({
+            debug: options.debug,
+            prefixes: options.prefixes,
+            allowed: options.allowed
+        });
+
+        // grunt.verbose.writeln(util.inspect(this.te, {depth: null, colors:true}));
+        // grunt.verbose.writeln(util.inspect(this.bd, {depth: null, colors:true}));
         // grunt.verbose.writeflags(options);
     }
 

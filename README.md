@@ -52,7 +52,7 @@ Each target defines a specific task that can be run.
 
 #### options.root
 Type: `String`
-Default value: `equal to __dirname`
+Default value: `Gruntfile.* directory`
 
 Templates root directory.
 
@@ -75,7 +75,7 @@ Default value: `[ ]`
 
 Allowed BEM-blocks. Not allowed blocks will be filtered out from `*.bemdecl.js` files.
 
-> *NOTE*: An empty list means that all BEM-blocks considered valid
+> An empty list means that all BEM-blocks considered valid.
 
 ### Usage Example
 
