@@ -11,4 +11,4 @@ script:
     - "grunt test"
 
 after_success:
-    - "grunt coveralls"
+    - "grunt coveralls-io"

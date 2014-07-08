@@ -46,5 +46,5 @@ module.exports = function(grunt) {
     grunt.registerTask('test', 'mochaTest:all');
     grunt.registerTask('coverage', 'mocha_istanbul:coverage');
 
-    grunt.registerTask('coveralls', [ 'test', 'coverage', 'coveralls' ]);
+    grunt.registerTask('coveralls-io', [ 'coverage', 'coveralls' ]);
 };
