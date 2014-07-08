@@ -30,7 +30,7 @@ module.exports = function(grunt) {
             }
         },
         coveralls: {
-            options: {
+            all: {
                 src: 'coverage/lcov.info',
                 force: true
             }
@@ -46,5 +46,5 @@ module.exports = function(grunt) {
     grunt.registerTask('test', 'mochaTest:all');
     grunt.registerTask('coverage', 'mocha_istanbul:coverage');
 
-    grunt.registerTask('coveralls-io', [ 'coverage', 'coveralls' ]);
+    grunt.registerTask('coveralls-io', [ 'coverage', 'coveralls:all' ]);
 };
