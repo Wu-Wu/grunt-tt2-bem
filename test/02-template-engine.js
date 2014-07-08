@@ -3,7 +3,7 @@
 // template-engine.js tests
 //
 var TemplateEngine = require('../lib/template-engine'),
-    te = new TemplateEngine({ debug : true, root: 'test/fixtures', includes: [ '.', 'includes' ] }),
+    te = new TemplateEngine({ debug : false, root: 'test/fixtures', includes: [ '.', 'includes' ] }),
     should = require('should'),
     fs = require('fs'),
     _ = require('lodash'),
