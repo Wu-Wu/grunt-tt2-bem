@@ -66,16 +66,16 @@ List of directories contains include files.
 Type: `Array`
 Default value: `[ 'b', 'i', 'l' ]`
 
-List of BEM prefixes. Will be catch all BEM-blocks started with.
+Valid BEM prefixes. Will catch all BEM-blocks started with (like `b-foo__bar`, `i-rel`) and skip others
+(like `d-quux__foo`).
 
 #### options.allowed
 Type: `Array`
 Default value: `[ ]`
 
-List of valid BEM-blocks. Invalid catched blocks will be filtered out from `*.bemdecl.js` files.
+Allowed BEM-blocks. Not allowed blocks will be filtered out from `*.bemdecl.js` files.
 
-*NOTE*: An empty list means that all BEM-blocks considered valid
-
+> *NOTE*: An empty list means that all BEM-blocks considered valid
 
 ### Usage Example
 
