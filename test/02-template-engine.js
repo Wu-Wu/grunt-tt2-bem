@@ -195,6 +195,7 @@ describe('template-engine', function(){
         it('should return errors list if anything not resolved', function() {
             var filename = 'test/fixtures/tt2-not-resolved.html',
                 expected = [
+                    'Unable to resolve file path:',
                     filename + ' @ pos 26: "INCLUDE xxx1.tt2"',
                     filename + ' @ pos 75: "PROCESS z.inc"'
                 ];
