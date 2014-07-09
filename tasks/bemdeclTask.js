@@ -23,13 +23,35 @@ module.exports = function (grunt) {
             includes    : [ '.' ],
             prefixes    : [ 'b', 'i', 'l' ],
             allowed     : [],
+            // expanding this.files
+            src         : [],
+            dest        : '',
+            ext         : '.bemdecl.js',
+            extDot      : 'last',
+            // misc
             debug       : false
         });
 
         var files = [];
 
-        // grunt.verbose.writeln('files: ' + util.inspect(this.files, {depth: null, colors:true}));
+        // no files provided
+        if (_.isEmpty(this.files)) {
+            // trying to expand from options
+            if (!_.isEmpty(options.src) && !_.isEmpty(options.dest)) {
+                // expand by given root, src & dest, ext & extDot
+                this.files = grunt.file.expandMapping(
+                    options.src,
+                    options.dest,
+                    {
+                        cwd: options.root,
+                        ext: options.ext,
+                        extDot: options.extDot
+                    }
+                );
+            }
+        }
 
+        // arrange src-dest pairs of files
         _.each(this.files, function (pair) {
             _.each(pair.src, function (src) {
                 files.push({

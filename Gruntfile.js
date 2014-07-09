@@ -66,18 +66,31 @@ module.exports = function(grunt) {
                 options: {
                     root: 'test/fixtures',
                     includes: [ 'includes' ],
-                    // TODO
-                    // src: [ 'templates/**/*.html' ],
-                    // dest: 'bem/'
-                },
-                files: [{
-                    expand: true,
-                    cwd: 'test/fixtures',
+                    // case 4
                     src: [ 'templates/**/*.html' ],
-                    dest: 'bem/',
-                    ext: '.bemdecl.js',
-                    extDot: 'last'
-                }]
+                    dest: 'bem/'
+                },
+                // case 1
+                // files: {
+                //     'bem/templates/web-sites/wix/index.bemdecl.js': 'test/fixtures/templates/web-sites/wix/index.html',
+                //     'bem/templates/choose/domain/new.bemdecl.js': 'test/fixtures/templates/choose/domain/new.html'
+                // },
+                // case 2
+                // files: [
+                //     { src: ['test/fixtures/templates/web-sites/wix/index.html'], dest: 'bem/templates/web-sites/wix/index.bemdecl.js' },
+                //     { src: ['test/fixtures/templates/choose/domain/new.html'], dest: 'bem/templates/choose/domain/new.bemdecl.js' }
+                // ],
+                // case 3
+                // files: [{
+                //     expand: true,
+                //     cwd: 'test/fixtures',
+                //     src: [ 'templates/**/*.html' ],
+                //     dest: 'bem/',
+                //     ext: '.bemdecl.js',
+                //     extDot: 'last'
+                // }]
+                // case 4
+                // see "options"
             }
         }
     });
