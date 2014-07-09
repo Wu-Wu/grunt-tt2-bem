@@ -54,56 +54,67 @@ Each target defines a specific task that can be run.
 ### Options
 
 #### options.root
+
 Type: `String`
-Default value: `Gruntfile.* directory`
+Default: `Gruntfile.* directory`
 
 Templates root directory.
 
 #### options.includes
+
 Type: `Array`
-Default value: `[ '.' ]` (root directory)
+Default: `[ '.' ]` (root directory)
 
 List of directories contains include files.
 
 #### options.prefixes
-Type: `Array`
-Default value: `[ 'b', 'i', 'l' ]`
 
-Valid BEM prefixes. Will catch all BEM-blocks started with (like `b-foo__bar`, `i-rel`) and skip others
-(like `d-quux__foo`).
+Type: `Array`
+Default: `[ 'b', 'i', 'l' ]`
+
+Valid BEM prefixes.
+
+> Will catch all BEM-blocks started with (like `b-foo__bar`, `i-rel`) and skip others (like `d-quux__foo`).
 
 #### options.allowed
+
 Type: `Array`
-Default value: `[ ]`
+Default: `[ ]`
 
 Allowed BEM-blocks. Not allowed blocks will be filtered out from `*.bemdecl.js` files.
 
 > An empty list means that all BEM-blocks considered valid.
 
 #### options.src
-Type: `Array`
-Default value: `[ ]`
 
-Source files patterns list. This list will be used to build src-dest map through the [grunt.file.expandMapping](http://gruntjs.com/api/grunt.file#grunt.file.expandmapping) if no `files` given.
+Type: `Array`
+Default: `[ ]`
+
+Source files patterns list.
+
+> This list will be used to build src-dest map through the [grunt.file.expandMapping](http://gruntjs.com/api/grunt.file#grunt.file.expandmapping) if no `files` given.
 See more at [Configuring tasks: Files](http://gruntjs.com/configuring-tasks#files).
 
 #### options.dest
+
 Type: `String`
-Default value: `''`
+Default: `''`
 
 Destination path prefix. Used only for building src-dest map in conjunction of `options.src`.
 
 #### options.ext
+
 Type: `String`
-Default value: `.bemdecl.js`
+Default: `.bemdecl.js`
 
 Extension replacement for destination filepaths. Used only for building src-dest map in conjunction of `options.src`.
 
 #### options.extDot
-Type: `String`
-Default value: `last`
 
-Extension in filenames will begin after first or last dot. So allowed values for this will be `last` and `first`. Used only for building src-dest map in conjunction of `options.src`.
+Type: `String`
+Default: `last`
+
+Extension in filenames will begin after `first` or `last` dot. Used only for building src-dest map in conjunction of `options.src`.
 
 ### Usage Example
 
