@@ -64,8 +64,20 @@ module.exports = function(grunt) {
         bemdecl: {
             all: {
                 options: {
-
-                }
+                    root: 'test/fixtures',
+                    includes: [ 'includes' ],
+                    // TODO
+                    // src: [ 'templates/**/*.html' ],
+                    // dest: 'bem/'
+                },
+                files: [{
+                    expand: true,
+                    cwd: 'test/fixtures',
+                    src: [ 'templates/**/*.html' ],
+                    dest: 'bem/',
+                    ext: '.bemdecl.js',
+                    extDot: 'last'
+                }]
             }
         }
     });
