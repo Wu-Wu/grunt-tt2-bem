@@ -62,8 +62,6 @@ module.exports = function (grunt) {
             });
         });
 
-        // grunt.verbose.writeln('files: ' + util.inspect(files, {depth: null, colors:true}));
-
         if (files.length > 0) {
             this.te = new TemplateEngine({
                 debug: options.debug,
@@ -76,8 +74,6 @@ module.exports = function (grunt) {
                 prefixes: options.prefixes,
                 allowed: options.allowed
             });
-
-            // grunt.verbose.writeln('includes: ' + util.inspect(this.te.options.includes, {depth: null, colors:true}));
 
             grunt.util.async.forEachLimit(files, 30, function (file, next) {
                 grunt.log.writeln("Processing " + (file.src).cyan + "...");
@@ -94,10 +90,6 @@ module.exports = function (grunt) {
         else {
             grunt.log.writeln('No templates to processing');
         }
-
-        // grunt.verbose.writeln(util.inspect(this.te, {depth: null, colors:true}));
-        // grunt.verbose.writeln(util.inspect(this.bd, {depth: null, colors:true}));
-        // grunt.verbose.writeflags(options);
     }
 
     grunt.registerMultiTask('bemdecl', 'Creates *.bemdecl.js for templates', bemDeclTask);
