@@ -92,7 +92,7 @@ module.exports = function (grunt) {
             }.bind(this), this.async());
         }
         else {
-            grunt.log.writeln('No files to processing');
+            grunt.log.writeln('No templates to processing');
         }
 
         // grunt.verbose.writeln(util.inspect(this.te, {depth: null, colors:true}));

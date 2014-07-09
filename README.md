@@ -77,9 +77,106 @@ Allowed BEM-blocks. Not allowed blocks will be filtered out from `*.bemdecl.js` 
 
 > An empty list means that all BEM-blocks considered valid.
 
+#### options.src
+Type: `Array`
+Default value: `[ ]`
+
+Source files patterns list. This list will be used to build src-dest map through the [grunt.file.expandMapping](http://gruntjs.com/api/grunt.file#grunt.file.expandmapping) if no `files` given.
+See more at [Configuring tasks: Files](http://gruntjs.com/configuring-tasks#files).
+
+#### options.dest
+Type: `String`
+Default value: `''`
+
+Destination path prefix. Used only for building src-dest.
+
+#### options.ext
+Type: `String`
+Default value: `.bemdecl.js`
+
+Extension replacement for destination filepaths.
+
+#### options.extDot
+Type: `String`
+Default value: `last`
+
+Extension in filenames will begin after first or last dot. So allowed values for this will be `last` and `first`.
+
+
 ### Usage Example
 
 TODO
+
+### Source templates
+
+Source templates might be pointed in several ways:
+
+#### As an object `files` (static)
+
+```js
+bemdecl: {
+    all: {
+        options: { },
+        files: {
+            // dest : src
+            'bem/templates/web-sites/index.bemdecl.js': 'templates/web-sites/index.html',
+            'bem/templates/domain/new.bemdecl.js': 'templates/domain/new.html'
+        }
+    }
+}
+```
+
+#### As an array `files` (static)
+
+```js
+bemdecl: {
+    all: {
+        options: { },
+        files: [
+            { src: 'templates/web-sites/index.html', dest: 'bem/templates/web-sites/index.bemdecl.js' },
+            { src: 'templates/domain/new.html', dest: 'bem/templates/domain/new.bemdecl.js' }
+        ]
+    }
+}
+```
+
+#### As an array `files` (dynamic)
+
+```js
+bemdecl: {
+    all: {
+        options: { },
+        files: [{
+            expand: true,
+            cwd: 'path/to/root',
+            src: [ 'templates/**/*.html' ],
+            dest: 'bem/',
+            ext: '.bemdecl.js',
+            extDot: 'last'
+        }]
+    }
+}
+```
+
+#### By special options (dynamic)
+
+```js
+bemdecl: {
+    all: {
+        options: {
+            root: 'path/to/root',
+            includes: [ 'includes' ],
+            // dynamic mapping of files
+            src: [ 'templates/**/*.html' ],
+            dest: 'bem/',
+            ext: '.bemdecl.js',     // defaults
+            extDot: 'last'          // defaults
+        },
+    }
+}
+```
+
+
 
 ## License
 _grunt-tt2-bem_ is licensed under the [MIT license][].
