@@ -155,33 +155,51 @@ describe('template-engine', function(){
     });
 
     describe('parse()', function(){
+        it('should return error if root template is undefined', function(){
+            var result = te.parse();
+
+            (result === undefined).should.be.eql(true);
+            te.errors().should.be.eql([ 'Template is undefined' ]);
+        });
+
+        it('should return error if root template does not exist', function(){
+            var result = te.parse('test/fixtures/tt2-nonexistent.html');
+
+            (result === undefined).should.be.eql(true);
+            te.errors().should.be.eql([ 'Template does not exist' ]);
+        });
+
+        it('should return error if root template is empty', function(){
+            var result = te.parse('test/fixtures/tt2-empty.html');
+
+            (result === undefined).should.be.eql(true);
+            te.errors().should.be.eql([ 'Template is empty' ]);
+        });
+
         it('should return merged content if everything resolved', function() {
-            var template = '<div class="b-xxx">' +
-                            ' [%- INCLUDE \'xxx.tt2\' a1 => 123; -%]' +
-                            '</div>',
+            var filename = 'test/fixtures/tt2-resolved.html',
+                template = fs.readFileSync(filename, { encoding: 'utf8' }),
                 expected = template + '\n' +
                 '<!--\n' +
-                ' parent: root @ pos 24\n' +
+                ' parent: ' + filename + ' @ pos 26\n' +
                 ' resolved: ' + te.options.root + '/xxx.tt2\n' +
                 '-->\n' +
                 '<a class="b-bar__baz">&nbsp;</a>\n';
 
-            var result = te.parse(template);
+            var result = te.parse(filename);
 
             (result !== undefined).should.be.eql(true);
             result.should.be.eql(expected);
         });
 
         it('should return errors list if anything not resolved', function() {
-            var template = '<div class="b-xxx">' +
-                            ' [%- INCLUDE \'xxx1.tt2\' a1 => 123; -%] [% PROCESS z.inc; INCLUDE "xxx.tt2"; %]' +
-                            '</div>',
+            var filename = 'test/fixtures/tt2-not-resolved.html',
                 expected = [
-                    'root @ pos 24: "INCLUDE xxx1.tt2"',
-                    'root @ pos 61: "PROCESS z.inc"'
+                    filename + ' @ pos 26: "INCLUDE xxx1.tt2"',
+                    filename + ' @ pos 75: "PROCESS z.inc"'
                 ];
 
-            var result = te.parse(template);
+            var result = te.parse(filename);
 
             (result === undefined).should.be.eql(true);
             te.errors().should.be.eql(expected);
