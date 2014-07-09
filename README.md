@@ -34,12 +34,15 @@ In your project's Gruntfile, add a section named `bemdecl` to the data object pa
 ```js
 grunt.initConfig({
     bemdecl: {
-        some_target: {
+        someTarget: {
             options: {
                 // Target-specific options go here.
+                root: 'path/to/root',
+                includes: [ 'includes', 'inc' ]    // relative to $root
             },
-            src: [
-                // Specify the files you want to edit
+            files: [
+                // Specify the tt2 files you want to transform to bemdecl.
+                { src: 'templates/foo.html', dest: 'bem/templates/foo.bemdecl.js' }
             ]
         }
     }
@@ -88,20 +91,19 @@ See more at [Configuring tasks: Files](http://gruntjs.com/configuring-tasks#file
 Type: `String`
 Default value: `''`
 
-Destination path prefix. Used only for building src-dest.
+Destination path prefix. Used only for building src-dest map in conjunction of `options.src`.
 
 #### options.ext
 Type: `String`
 Default value: `.bemdecl.js`
 
-Extension replacement for destination filepaths.
+Extension replacement for destination filepaths. Used only for building src-dest map in conjunction of `options.src`.
 
 #### options.extDot
 Type: `String`
 Default value: `last`
 
-Extension in filenames will begin after first or last dot. So allowed values for this will be `last` and `first`.
-
+Extension in filenames will begin after first or last dot. So allowed values for this will be `last` and `first`. Used only for building src-dest map in conjunction of `options.src`.
 
 ### Usage Example
 
