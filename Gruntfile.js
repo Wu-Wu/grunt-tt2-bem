@@ -65,7 +65,7 @@ module.exports = function(grunt) {
             all: {
                 options: {
                     root: 'test/fixtures',
-                    includes: [ 'includes' ],
+                    includes: [ 'includes', 'templates' ],
                     // files
                     src: [ 'templates/**/*.html' ],
                     dest: 'bem/'

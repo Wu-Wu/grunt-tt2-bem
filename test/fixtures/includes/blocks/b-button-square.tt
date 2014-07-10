@@ -1,0 +1,2 @@
+<button class="b-button-square b-button-square_color_green b-button-square_bg-inverse">foo</button>
+<button class="b-button-square b-button-square_color_red">foo</button>

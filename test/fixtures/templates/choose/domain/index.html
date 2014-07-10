@@ -1,0 +1,170 @@
+[%
+html.title = t( 'choose_domain-tt.title' );
+body_class = 'b-page__footer-hide';
+html.content_classname = 'b-content_indent-top_none b-content_indent-bottom_none';
+-%]
+
+[% WRAPPER popup
+    show_bottom_close => 1
+    popup_width => 500
+    popup_title => t( 'choose_domain-tt.adwords.title' )
+    attr => {
+        id => 'parallels_AD'
+    }
+%]
+    <p class="b-text b-text_size_15">[% t( 'choose_domain-tt.adwords.description' ) %]</p>
+[% END # popup %]
+
+<a id="time_warning_trigger" href="#time_warning" class="b-popup__trigger-open"></a>
+[%
+  WRAPPER popup
+    show_bottom_close => {
+        text => t( 'choose_domain-tt.continue' )
+    }
+    popup_width => 400
+    popup_title => t( 'choose_domain-tt.time_warning.title' )
+    attr => {
+        id => 'time_warning'
+    }
+%]
+    <p class="b-text b-text_size_15 b-checkmany__time-warning">[% t( 'choose_domain-tt.time_warning.description' ) %]</p>
+[% END # popup %]
+
+
+
+<div class="i-rel b-checkmany-form__holder">
+<div class="b-checkmany-query__wrapper l-margin">
+    <div class="b-page__content-wrapper">
+    [% WRAPPER grid
+        grid_type => 'table'
+    %]
+        [% WRAPPER grid_column
+            column_size => 9
+        %]
+        <h1 class="b-title b-title_size_32">[% html.title %]</h1>
+        <form id="cma-search" class="no-csrf b-form-compact b-form-compact_style_border-none b-checkmany-query" action="/choose/domain/[% c.action.name != 'index' ? c.action.name : '' %]" method="[% bulk_required ? 'post' : 'get' %]" onsubmit="return validate_regform( 'cma-keywords' );">
+            [%- IF fake_responses %]
+                <input type="hidden" name="fake_responses" value="1" />
+            [%- END %]
+            [%- IF bulk_required && domains.size() >= 20 -%]
+                <input type="hidden" name="is_bulk_registration" value="1" />
+            [%- END -%]
+            <div class="b-form-compact__inner-wrapper">
+                <div class="b-form-compact__buttons-placeholder">
+                    [%-
+                        INCLUDE 'b-button.inc'
+                            attr => {
+                                type => 'submit'
+                            },
+                            color => 'primary-alternate',
+                            size => 'normal',
+                            text  => t( 'choose_domain-tt.check' _ ( domains.size() ? '_again' : '' ) )
+                        ;
+                    -%]
+                </div>
+                <div class="b-form-compact__field-placeholder">
+                    <input id="cma-keywords" class="b-form-compact__query" type="text" name="domains" value="[% domains.join(', ') | html %]" />
+                </div>
+            </div>
+        </form>
+        [% END # WRAPPER grid_column %]
+        [% WRAPPER grid_column
+            column_size => 3
+        %]
+        <a class="b-checkmany-adwords b-popup__trigger-open" href="#parallels_AD">
+            <span class="b-checkmany-adwords__logo"></span>
+            <span class="b-checkmany-adwords__corner"></span>
+
+            <strong class="b-checkmany-adwords__title">[% t( 'choose_domain-tt.adwords.banner' ) %]</strong>
+        </a>
+        [% END # WRAPPER grid_column %]
+    [% END # WRAPPER grid %]
+    </div>
+</div>
+
+<div class="b-page__content-wrapper b-checkmany-wrapper">
+    <div class="b-checkmany-list-wrapper b-checkmany-request"></div>
+
+    [%- UNLESS bulk_required -%]
+
+        [% IF checkmany_layout == 'compact' -%]
+        <div class="i-rel b-checkmany-compact-rel">
+            <ul class="b-checkmany-compact-tabs i-sticky"></ul>
+            <div class="b-checkmany-compact-wrapper b-checkmany-compact-wrapper_margin_none">
+        [% END -%]
+        <div class="b-checkmany-recommended b-checkmany-list-wrapper i-rel"></div>
+
+        <div class="b-checkmany-more-wrapper"></div>
+
+        <form class="b-checkmany-download-wrapper b-text b-text_size_medium" action="/domain/new/download_checklist" method="POST" target="_blank"></form>
+
+        [% IF checkmany_layout == 'compact' -%]
+            </div>
+        </div>
+        [% END -%]
+
+    [%- ELSE # UNLESS bulk_required -%]
+
+        <form class="b-checkmany-download-wrapper b-text b-text_size_medium" action="/domain/new/download_checklist" method="POST" target="_blank"></form>
+
+    [%- END # UNLESS bulk_required -%]
+
+    [%-
+    IF user.is_reseller;
+        t( 'choose_domain-tt.go_old_version', {
+            link => '#' #'/domain/new/checkmany_ajax?fromnew=1' _ ( bulk_required ? '' : '&amp;domains=' _ domains.join('+') )
+        })
+        | bemd( classes => {
+            'p' => 'b-text b-text_size_18 b-text_align_center b-checkmany-old',
+            'a' => 'b-link b-checkmany-old__link'
+        });
+    END;
+    -%]
+</div>
+
+<form method="post" action="/domain/new/multi_submit" class="b-checkmany-form">
+    <input type="hidden" value="1" name="multidoms" />
+    <input id="check_domains" type="hidden" name="check_domains" value="[% domains.size == 1 ? domains.join(',') : ''  | html %]" />
+    [% IF preorder_cart_id %]<input type="hidden" name="preorder_cart_id" value="[% preorder_cart_id %]" />[% END %]
+
+    <div class="b-checkmany-bar">
+        <div class="b-checkmany-offer">
+            <div class="b-page__content-wrapper">
+                <div class="b-checkmany-offer__wrapper"></div>
+            </div>
+        </div>
+        <div class="b-checkmany-status">
+            <div class="b-page__content-wrapper">
+                [%-
+
+                    INCLUDE 'b-button-square.inc'
+                        color => 'primary-alternate',
+                        icon  => 'toggle-up',
+                        size  => 'medium',
+                        attr  => {
+                            class => 'b-checkmany-status__toggle b-checkmany-status__toggle-button'
+                        }
+                    ;
+                -%]
+                [%- UNLESS fake_responses %]
+                <div class="b-checkmany-status__wrapper"></div>
+                [%- END %]
+            </div>
+        </div>
+        <div class="b-page__content-wrapper b-checkmany-selected__rel i-rel">
+            [%
+            WRAPPER popup
+                attr => {
+                    class => 'b-popup_border_grey b-checkmany-selected'
+                }
+            %]
+                <strong class="b-checkmany-selected__header">[% t( 'choose_domain-tt.selected_domains' ) %]</strong>
+                <div class="b-checkmany-selected__wrapper"></div>
+            [% END # WRAPPER popup %]
+        </div>
+    </div>
+</form>
+
+</div> [%# i-rel %]
+
+[% PROCESS 'domain/popups.inc' %]
