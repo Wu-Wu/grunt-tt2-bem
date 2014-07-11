@@ -728,4 +728,31 @@ describe('bem-decl', function() {
         });
     });
 
+    describe('github issue #4', function(){
+        var text = ' b-foo b-foo__xxx b-foo__zzz b-foo__zzz_color_red b-foo__xxx ';
+
+        before(function(){
+            bd.parse( text );
+        });
+
+        after(function(){
+            bd.clear();
+        });
+
+        it('should correct cast "elems" (strings) to "elems" (objects)', function(){
+            bd.decl().should.be.eql([
+                {
+                    block: 'b-foo',
+                    elems: [
+                        { elem: 'xxx' },
+                        {
+                            elem: 'zzz',
+                            mods: [ { mod: 'color', val: 'red' } ]
+                        }
+                    ]
+                }
+            ]);
+        });
+    });
+
 });
