@@ -729,7 +729,7 @@ describe('bem-decl', function() {
     });
 
     describe('github issue #4', function(){
-        var text = ' b-foo b-foo__xxx b-foo__zzz b-foo__zzz_color_red b-foo__xxx ';
+        var text = 'b-foo b-foo__xxx b-foo__zzz b-foo__zzz_color_red b-foo__xxx';
 
         before(function(){
             bd.parse( text );
