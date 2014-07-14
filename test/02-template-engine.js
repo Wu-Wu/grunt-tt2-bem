@@ -206,4 +206,21 @@ describe('template-engine', function(){
             te.errors().should.be.eql(expected);
         });
     });
+
+    // describe('github issue #2', function() {
+    //     it('should skip commented tt2 directives', function() {
+    //         var filename = 'test/fixtures/tt2-skip-comments.html',
+    //             expected = [
+    //                 'Unable to resolve file path:',
+    //                 filename + ' @ pos 26: "INCLUDE xxx1.tt2"',
+    //                 filename + ' @ pos 75: "PROCESS z.inc"'
+    //             ];
+
+    //         var result = te.parse(filename);
+
+    //         (result === undefined).should.be.eql(true);
+    //         te.errors().should.be.eql(expected);
+    //     });
+
+    // });
 });

@@ -1,0 +1,33 @@
+[%~ # INCLUDE 'b-button-arrow.inc' ~%]
+[%~ # title ~%]
+[%~ # text ~%]
+[%~ # нужное добовляем по аналогии b-button-square. Если там такого нет, смотрим b-button ~%]
+
+[%~
+    SET aaa = 1;
+    IF bbb
+    THEN
+        ccc = 12;
+    END;
+
+    PROCESS foo.inc;
+%]
+
+[% #INCLUDE 'bar.inc'; %]
+[% ### INCLUDE 'bar.inc'; %]
+[%~
+    ##   INCLUDE "baz.inc";
+    INCLUDE
+        'quux.inc'
+            size => 12, color => 'black';
+%]
+
+[%- # PROCESS '1.inc' %]
+
+[%- ##  PROCESS '2.inc' %]
+
+[%- ###    PROCESS '3.inc' %]
+
+[%- ###  --~~ ##       PROCESS '4.inc' %]
+
+[%- #####PROCESS '5.inc' %]
