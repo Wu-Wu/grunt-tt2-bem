@@ -82,7 +82,7 @@ module.exports = function(grunt) {
 
     grunt.registerTask('default', 'test');
 
-    grunt.registerTask('test', [ 'jshint:all', 'mochaTest:all', 'bemdecl:all' ]);
+    grunt.registerTask('test', [ 'jshint:all', 'bemdecl:all', 'mochaTest:all' ]);
     grunt.registerTask('coverage', [ 'jshint:all', 'mocha_istanbul:coverage' ]);
 
     grunt.registerTask('coveralls-io', [ 'coverage', 'coveralls:all' ]);
