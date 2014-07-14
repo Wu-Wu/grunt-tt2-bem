@@ -4,3 +4,4 @@ tmp/
 dev/
 coverage/
 grunt-tt2-bem-*
+test/fixtures/bem/

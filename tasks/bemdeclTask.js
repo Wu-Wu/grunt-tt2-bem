@@ -63,7 +63,7 @@ module.exports = function (grunt) {
                 // expand by given root, src & dest, ext & extDot
                 this.files = grunt.file.expandMapping(
                     options.src,
-                    options.dest,
+                    path.join(options.root, options.dest),
                     {
                         cwd: options.root,
                         ext: options.ext,
