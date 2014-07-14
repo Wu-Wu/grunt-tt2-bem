@@ -1,6 +1,6 @@
 {
   "name": "grunt-tt2-bem",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Template Toolkit 2 to BEM bridge",
   "repository": {
     "type": "git",
@@ -13,7 +13,7 @@
   ],
   "author": {
     "name": "Anton Gerasimov",
-    "email": "a.gerasimov@reg.ru"
+    "email": "me@zyxmasta.com"
   },
   "licenses": [
     {
