@@ -100,19 +100,12 @@ module.exports = function (grunt) {
             grunt.util.async.forEachLimit(files, 30, function (file, next) {
                 grunt.log.writeln("Processing " + chalk.cyan(file.src) + "...");
 
-                // TODO
-                // content = this.te.parse(file.src);
-                // decl = this.bd.decl(content);
-                // !grunt.file.exists(file.dir) -> grunt.file.mkdir(file.dir);
-                // grunt.file.write(file.dst, decl, {encoding: 'utf8'});
-
                 var content = this.te.parse(file.src);
 
                 if (!content) {
                     grunt.fatal(this.te.errors().join('\n'));
                 }
                 else {
-                    // grunt.log.writeln(content);
                     this.bd.clear();
                     this.bd.parse(content);
 
