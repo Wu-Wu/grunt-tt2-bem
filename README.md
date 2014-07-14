@@ -6,6 +6,7 @@ grunt-tt2-bem
 [![Build Status](https://travis-ci.org/Wu-Wu/grunt-tt2-bem.svg?branch=master)](https://travis-ci.org/Wu-Wu/grunt-tt2-bem)
 [![Coverage Status](https://img.shields.io/coveralls/Wu-Wu/grunt-tt2-bem.svg)](https://coveralls.io/r/Wu-Wu/grunt-tt2-bem?branch=master)
 [![Dependency Status](https://david-dm.org/Wu-Wu/grunt-tt2-bem.svg)](https://david-dm.org/Wu-Wu/grunt-tt2-bem)
+[![NPM version](https://badge.fury.io/js/grunt-tt2-bem.svg)](http://badge.fury.io/js/grunt-tt2-bem)
 
 ## Getting Started
 
