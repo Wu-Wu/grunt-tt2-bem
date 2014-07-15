@@ -41,10 +41,8 @@ grunt.initConfig({
                 root: 'path/to/root',
                 includes: [ 'includes', 'inc' ]    // relative to $root
             },
-            files: [
-                // Specify the tt2 files you want to transform to bemdecl.
-                { src: 'templates/foo.html', dest: 'bem/templates/foo.bemdecl.js' }
-            ]
+            src: [ 'templates/**/*.html' ],
+            dest: 'bem/bundles.generated'
         }
     }
 })

@@ -57,6 +57,16 @@ module.exports = function (grunt) {
         options.src = this.data.src;
         options.dest = this.data.dest;
 
+        // fatalities
+        // no patterns for templates
+        if (_.isUndefined(options.src)) {
+            grunt.fatal('Missed patterns in task. Use "src" parameter.');
+        }
+        // no destination dir
+        if (_.isUndefined(options.dest)) {
+            grunt.fatal('Missed destination directory in task. Use "dest" parameter.');
+        }
+
         // flattenPath options
         options.flattenPath = {
             root : options.root,
