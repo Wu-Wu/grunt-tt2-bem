@@ -33,6 +33,19 @@ describe('flatten-path', function() {
             .should.be.eql('bar-choose-index');
     });
 
+    it('should normalize all paths', function() {
+        flattenPath('templates/foo/../bar/baz/choose/index.html', { root: 'templates/foo/../bar' })
+            .should.be.eql('baz-choose-index');
+    });
+
+    it('should throw error if filename out of root', function() {
+        try {
+            flattenPath('templates/foo/../bar/baz/choose/index.html', { root: 'templates/foo/../qux' });
+        } catch (e) {
+            e.should.match(/^Filename located out of root directory/);
+        }
+    });
+
     it('should handle all options together', function() {
         flattenPath(
             'templates/foo/bar/baz/choose/index.tt2.html',
