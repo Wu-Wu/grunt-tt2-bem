@@ -81,6 +81,15 @@ module.exports = function (grunt) {
         if (_.isString(options.src)) {
             options.src = [ options.src ];
         }
+        // Object to Array
+        if (_.isObject(options.src) && !_.isArray(options.src)) {
+            options.src = _.chain(options.src)
+                                .values()
+                                .flatten()
+                                .compact()
+                                .uniq()
+                                .value();
+        }
 
         _.each(options.src, function (pattern) {
             // expand each pattern
