@@ -1,3 +1,4 @@
+[% # INCLUDE 'b-button.inc' -%]
 <div class="b-button">
     <a href="#" class="b-button__abc b-button__abc_color_green">abc</a>
     [% foo ? '<br/>' : ''; %]
