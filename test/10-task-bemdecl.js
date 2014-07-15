@@ -8,7 +8,7 @@ require('mocha');
 var loadFixture = function (name) {
     var base = path.join('test','fixtures'),
         fileActual = path.join(base, 'bem', 'bundles.generated', name, name + '.bemdecl.js'),
-        fileExpected = path.join(base, name + '.bemdecl.js');
+        fileExpected = path.join(base, 'bemdecl', name + '.bemdecl.js');
 
     return {
         actual: fs.readFileSync(fileActual, {encoding: 'utf8'}),
