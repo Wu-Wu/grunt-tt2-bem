@@ -32,7 +32,8 @@ module.exports = function (grunt) {
         BemDecl = require('../lib/bem-decl'),
         util = require('util'),
         _ = require('lodash'),
-        chalk = require('chalk');
+        chalk = require('chalk'),
+        flattenPath = require('../lib/flatten-path');
 
 
     function bemDeclTask () {
@@ -76,6 +77,7 @@ module.exports = function (grunt) {
         // arrange src-dest pairs of files
         _.each(this.files, function (pair) {
             _.each(pair.src, function (src) {
+                // flattenPath(src, { root: options.root, cut: options.cutLevel, ext: '.html', sep: '-' });
                 files.push({
                     src: src,
                     dst: pair.dest,
