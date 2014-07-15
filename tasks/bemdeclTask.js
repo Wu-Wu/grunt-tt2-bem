@@ -43,45 +43,50 @@ module.exports = function (grunt) {
             includes    : [ '.' ],
             prefixes    : [ 'b', 'i', 'l' ],
             allowed     : [],
-            // expanding this.files
-            src         : [],
-            dest        : '',
-            ext         : '.bemdecl.js',
-            extDot      : 'last',
+            extDst      : '.bemdecl.js',
+            extSrc      : '.html',
             // misc
             debug       : false,
-            indentSize  : 4
+            indentSize  : 4,
+            sep         : '-',
+            cut         : 0
         });
-
-        var files = [];
 
         options.pkg = grunt.file.readJSON('package.json');
 
-        // no files provided
-        if (_.isEmpty(this.files)) {
-            // trying to expand from options
-            if (!_.isEmpty(options.src) && !_.isEmpty(options.dest)) {
-                // expand by given root, src & dest, ext & extDot
-                this.files = grunt.file.expandMapping(
-                    options.src,
-                    path.join(options.root, options.dest),
-                    {
-                        cwd: options.root,
-                        ext: options.ext,
-                        extDot: options.extDot
-                    }
-                );
-            }
+        options.src = this.data.src;
+        options.dest = this.data.dest;
+
+        // flattenPath options
+        options.flattenPath = {
+            root : options.root,
+            cut  : options.cut,
+            ext  : options.extSrc,
+            sep  : options.sep
+        };
+
+        var files = [];
+
+        // String to Array
+        if (_.isString(options.src)) {
+            options.src = [ options.src ];
         }
 
-        // arrange src-dest pairs of files
-        _.each(this.files, function (pair) {
-            _.each(pair.src, function (src) {
-                // flattenPath(src, { root: options.root, cut: options.cutLevel, ext: '.html', sep: '-' });
+        _.each(options.src, function (pattern) {
+            // expand each pattern
+            var expanded = grunt.file.expand(
+                { filter: 'isFile', cwd: '.' },
+                path.join(options.root, pattern)
+            );
+
+            _.each(expanded, function (file) {
+                // templates/choose/index.html -> templates-choose-index
+                var name = flattenPath(file, options.flattenPath);
+
                 files.push({
-                    src: src,
-                    dst: pair.dest,
-                    dir: path.dirname(pair.dest)
+                    src: file,
+                    dst: path.join(options.dest, name, name + options.extDst),
+                    dir: path.join(options.dest, name)
                 });
             });
         });

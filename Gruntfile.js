@@ -61,14 +61,16 @@ module.exports = function(grunt) {
                 force: true
             }
         },
+        clean: [ 'test/fixtures/bem' ],
         bemdecl: {
             all: {
+                src: [ 'templates/**/*.html' ],
+                // src: 'templates/**/*.html',
+                dest: 'test/fixtures/bem/bundles.generated',
                 options: {
                     root: 'test/fixtures',
                     includes: [ 'includes', 'templates' ],
-                    // files
-                    src: [ 'templates/**/*.html' ],
-                    dest: 'bem/'
+                    cut: 1
                 }
             }
         }
@@ -76,14 +78,15 @@ module.exports = function(grunt) {
 
     grunt.loadTasks('tasks');
     grunt.loadNpmTasks('grunt-contrib-jshint');
+    grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-mocha-test');
     grunt.loadNpmTasks('grunt-mocha-istanbul');
     grunt.loadNpmTasks('grunt-coveralls');
 
     grunt.registerTask('default', 'test');
 
-    grunt.registerTask('test', [ 'jshint:all', 'bemdecl:all', 'mochaTest:all' ]);
-    grunt.registerTask('coverage', [ 'jshint:all', 'mocha_istanbul:coverage' ]);
+    grunt.registerTask('test', [ 'clean', 'jshint:all', 'bemdecl:all', 'mochaTest:all' ]);
+    grunt.registerTask('coverage', [ 'clean', 'jshint:all', 'bemdecl:all', 'mocha_istanbul:coverage' ]);
 
     grunt.registerTask('coveralls-io', [ 'coverage', 'coveralls:all' ]);
 };

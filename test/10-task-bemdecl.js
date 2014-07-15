@@ -1,15 +1,18 @@
 /* global describe, it, before, after, beforeEach, afterEach */
 var should = require('should'),
-    fs = require('fs');
+    fs = require('fs'),
+    path = require('path');
 
 require('mocha');
 
 var loadFixture = function (name) {
-    var flattened = name.split('/').join('.');
+    var base = path.join('test','fixtures'),
+        fileActual = path.join(base, 'bem', 'bundles.generated', name, name + '.bemdecl.js'),
+        fileExpected = path.join(base, name + '.bemdecl.js');
 
     return {
-        actual: fs.readFileSync('test/fixtures/bem/templates/' + name + '.bemdecl.js', {encoding: 'utf8'}),
-        expected: fs.readFileSync('test/fixtures/' + flattened + '.decl.js', {encoding: 'utf8'})
+        actual: fs.readFileSync(fileActual, {encoding: 'utf8'}),
+        expected: fs.readFileSync(fileExpected, {encoding: 'utf8'})
     };
 };
 
@@ -21,7 +24,7 @@ describe('task bemdecl:all', function() {
     });
 
     it('should generate bemdecl for "templates/choose/index.html"', function() {
-        var fixture = loadFixture('choose/index');
+        var fixture = loadFixture('choose-index');
 
         var expected = fixture.expected
                                 .replace('@generator', pkg.name)
@@ -31,7 +34,7 @@ describe('task bemdecl:all', function() {
     });
 
     it('should generate bemdecl for "templates/web-sites/wix/index.html"', function() {
-        var fixture = loadFixture('web-sites/wix/index');
+        var fixture = loadFixture('web-sites-wix-index');
 
         var expected = fixture.expected
                                 .replace('@generator', pkg.name)
@@ -41,7 +44,7 @@ describe('task bemdecl:all', function() {
     });
 
     it('should generate bemdecl for "templates/choose/new.html"', function() {
-        var fixture = loadFixture('choose/new');
+        var fixture = loadFixture('choose-new');
 
         var expected = fixture.expected
                                 .replace('@generator', pkg.name)
