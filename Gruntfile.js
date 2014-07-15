@@ -64,13 +64,7 @@ module.exports = function(grunt) {
         clean: [ 'test/fixtures/bem' ],
         bemdecl: {
             all: {
-                // src: {
-                //     foo: [ 'templates/choose/*.html', null, '', 'templates/choose/*.html' ],
-                //     bar: 'templates/web-sites/**/*.html',
-                //     baz: 'templates/web-sites/**/*.html'
-                // },
                 src: [ 'templates/**/*.html' ],
-                // src: 'templates/**/*.html',
                 dest: 'test/fixtures/bem/bundles.generated',
                 options: {
                     root: 'test/fixtures',
