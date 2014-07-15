@@ -60,11 +60,11 @@ module.exports = function (grunt) {
         // fatalities
         // no patterns for templates
         if (_.isUndefined(options.src)) {
-            grunt.fatal('Missed patterns in task. Use "src" parameter.');
+            grunt.fatal('Missed patterns in task. Use "src" property.');
         }
         // no destination dir
         if (_.isUndefined(options.dest)) {
-            grunt.fatal('Missed destination directory in task. Use "dest" parameter.');
+            grunt.fatal('Missed destination directory in task. Use "dest" property.');
         }
 
         // flattenPath options
