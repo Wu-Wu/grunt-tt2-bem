@@ -84,36 +84,44 @@ Allowed BEM-blocks. Not allowed blocks will be filtered out from `*.bemdecl.js` 
 
 > An empty list means that all BEM-blocks considered valid.
 
-#### options.src
-
-Type: `Array`
-Default: `[ ]`
-
-Source files patterns list.
-
-> This list will be used to build src-dest map through the [grunt.file.expandMapping](http://gruntjs.com/api/grunt.file#grunt.file.expandmapping) if no `files` given.
-See more at [Configuring tasks: Files](http://gruntjs.com/configuring-tasks#files).
-
-#### options.dest
+#### options.extSrc
 
 Type: `String`
-Default: `''`
+Default: `.html`
 
-Destination path prefix. Used only for building src-dest map in conjunction of `options.src`.
+Source files (templates) extension.
 
-#### options.ext
+#### options.extDst
 
 Type: `String`
 Default: `.bemdecl.js`
 
-Extension replacement for destination filepaths. Used only for building src-dest map in conjunction of `options.src`.
+Destination files (declarations) extension.
 
-#### options.extDot
+#### options.sep
 
 Type: `String`
-Default: `last`
+Default: `-`
 
-Extension in filenames will begin after `first` or `last` dot. Used only for building src-dest map in conjunction of `options.src`.
+Separator for flattened files and directories.
+
+>Suppose we have source template called `choose/domain/index.html` the bemdecl file for it would be like `choose-domain-index.bemdecl.js`. So path parts will be joined with `options.sep` value.
+
+#### options.cut
+
+Type: `Number`
+Default: `0`
+
+The numbers of levels in source file path which should be skipped.
+
+>Used to get flatten path for a template. For the `templates/choose/domain/index.html` and value of `1` the part `templates/` would be skipped.
+
+#### options.indentSize
+
+Type: `Number`
+Default: `4`
+
+The indentation levels for bemdecl structure.
 
 ### Usage Example
 
