@@ -127,71 +127,49 @@ The indentation levels for bemdecl structure.
 
 TODO
 
-### Source templates
+### Source (templates) and destination (declarations) files
 
-Source templates might be pointed in several ways:
+Source and destination files should be pointed through the `src` and `dest` properties respectively.
+Both propereties are required to work the plugin. The `dest` accepts only `String` value, the `src` accepts `String`, `Array` or `Object`.
 
-#### As an object `files` (static)
-
-```js
-bemdecl: {
-    all: {
-        options: { },
-        files: {
-            // dest : src
-            'bem/templates/web-sites/index.bemdecl.js': 'templates/web-sites/index.html',
-            'bem/templates/domain/new.bemdecl.js': 'templates/domain/new.html'
-        }
-    }
-}
-```
-
-#### As an array `files` (static)
+As `String`
 
 ```js
 bemdecl: {
     all: {
         options: { },
-        files: [
-            { src: 'templates/web-sites/index.html', dest: 'bem/templates/web-sites/index.bemdecl.js' },
-            { src: 'templates/domain/new.html', dest: 'bem/templates/domain/new.bemdecl.js' }
-        ]
+        src: 'templates/**/*.html',
+        dest: 'bem/bundles.generated'
     }
 }
 ```
 
-#### As an array `files` (dynamic)
+As `Array`
 
 ```js
 bemdecl: {
     all: {
         options: { },
-        files: [{
-            expand: true,
-            cwd: 'path/to/root',
-            src: [ 'templates/**/*.html' ],
-            dest: 'bem/',
-            ext: '.bemdecl.js',
-            extDot: 'last'
-        }]
+        src: [ 'templates/**/*.html' ],
+        dest: 'bem/bundles.generated'
     }
 }
 ```
 
-#### By special options (dynamic)
+As `Object`. All values are plain `String` or `Array`. Duplicates and undefined members will be filtered.
 
 ```js
 bemdecl: {
     all: {
-        options: {
-            root: 'path/to/root',
-            includes: [ 'includes' ],
-            // dynamic mapping of files
-            src: [ 'templates/**/*.html' ],
-            dest: 'bem/',
-            ext: '.bemdecl.js',     // defaults
-            extDot: 'last'          // defaults
+        options: { },
+        src: {
+            foo: [
+                'templates/foo/*.html',
+                'templates/bar/*.html'
+            ],
+            qux: 'templates/qux/**/*.html'
         },
+        dest: 'bem/bundles.generated'
     }
 }
 ```
