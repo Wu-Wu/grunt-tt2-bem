@@ -93,13 +93,11 @@ module.exports = function (grunt) {
 
         if (files.length > 0) {
             this.te = new TemplateEngine({
-                debug: options.debug,
                 root: options.root,
                 includes: options.includes
             });
 
             this.bd = new BemDecl({
-                debug: options.debug,
                 prefixes: options.prefixes,
                 allowed: options.allowed
             });
