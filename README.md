@@ -176,6 +176,13 @@ bemdecl: {
 
 ## Release History
 
+### v0.2.0
+  - Changed naming algorithm for declaration files.
+  - Added new options for more flexible src/dest files handling.
+  - Source templates (patterns) passed via `src` property. It accepts `String`, `Array` or `Object`.
+  - Destination directory passed via `dest` property.
+  - Updated README.md.
+
 ### v0.1.1
   - Initial release
 
