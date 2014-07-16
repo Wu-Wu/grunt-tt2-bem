@@ -270,15 +270,18 @@ bemdecl: {
 
 ## Release History
 
+### v0.2.1
+    - Fix: names w/o dots, slashes or dashes are treated as "variable".
+
 ### v0.2.0
-  - Changed naming algorithm for declaration files.
-  - Added new options for more flexible src/dest files handling.
-  - Source templates (patterns) passed via `src` property. It accepts `String`, `Array` or `Object`.
-  - Destination directory passed via `dest` property.
-  - Updated README.md.
+    - Changed naming algorithm for declaration files.
+    - Added new options for more flexible src/dest files handling.
+    - Source templates (patterns) passed via `src` property. It accepts `String`, `Array` or `Object`.
+    - Destination directory passed via `dest` property.
+    - Updated README.md.
 
 ### v0.1.1
-  - Initial release
+    - Initial release
 
 ## License
 _grunt-tt2-bem_ is licensed under the [MIT license][].
