@@ -5,14 +5,19 @@
 var BemDecl = require('../lib/bem-decl'),
     bd = new BemDecl(),
     should = require('should'),
-    fs = require('fs');
+    fs = require('fs'),
+    path = require('path');
 
 require('mocha');
 
 var loadFixture = function (name) {
+    var base = path.join('test', 'fixtures'),
+        tFile = path.join(base, name + '.html'),
+        eFile = path.join(base, name + '.json');
+
     return {
-        template: fs.readFileSync('test/fixtures/' + name + '.html', {encoding: 'utf8'}),
-        expected: JSON.parse(fs.readFileSync('test/fixtures/'+name+'.json', {encoding: 'utf8'}))
+        template: fs.readFileSync(tFile, {encoding: 'utf8'}),
+        expected: JSON.parse(fs.readFileSync(eFile, {encoding: 'utf8'}))
     };
 };
 

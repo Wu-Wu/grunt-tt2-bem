@@ -7,14 +7,16 @@ var TemplateEngine = require('../lib/template-engine'),
     should = require('should'),
     fs = require('fs'),
     _ = require('lodash'),
+    path = require('path'),
     processTemplate = TemplateEngine.processTemplate;
 
 require('mocha');
 
 var loadFixture = function (name) {
+    var tFile = path.join('test', 'fixtures', name + '.html');
+
     return {
-        template: fs.readFileSync('test/fixtures/' + name + '.html', {encoding: 'utf8'})
-        // expected: JSON.parse(fs.readFileSync('test/fixtures/'+name+'.json', {encoding: 'utf8'}))
+        template: fs.readFileSync(tFile, {encoding: 'utf8'})
     };
 };
 
