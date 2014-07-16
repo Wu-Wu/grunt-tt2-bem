@@ -34,7 +34,7 @@ module.exports = function (grunt) {
         _ = require('lodash'),
         chalk = require('chalk'),
         flattenPath = require('../lib/flatten-path'),
-        gatherFiles = require('../lib/gather-files');
+        gatherFiles = require('../lib/gather-files').gatherFiles;
 
 
     function bemDeclTask () {
