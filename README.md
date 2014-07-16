@@ -155,11 +155,17 @@ Done, without errors.
 The directory `test/fixtures/bem/bundles.generated` will be created and will contains declarations for each processed template:
 
 ```
-$ find test/fixtures/bem/bundles.generated -type f
+$ tree test/fixtures/bem/bundles.generated
 
-test/fixtures/bem/bundles.generated/choose-index/choose-index.bemdecl.js
-test/fixtures/bem/bundles.generated/choose-new/choose-new.bemdecl.js
-test/fixtures/bem/bundles.generated/web-sites-wix-index/web-sites-wix-index.bemdecl.js
+test/fixtures/bem/bundles.generated
+├── choose-index
+│   └── choose-index.bemdecl.js
+├── choose-new
+│   └── choose-new.bemdecl.js
+└── web-sites-wix-index
+    └── web-sites-wix-index.bemdecl.js
+
+3 directories, 3 files
 ```
 
 The `.bemdecl.js` file contains declaration like this:
