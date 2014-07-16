@@ -73,6 +73,28 @@ describe('template-engine', function(){
         });
     });
 
+    describe('isLikeFile()', function() {
+        it('should not treat "some_thing" as filename', function() {
+            te.isLikeFile('some_thing').should.be.eql(false);
+        });
+
+        it('should not treat "OtherThing" as filename', function() {
+            te.isLikeFile('OtherThing').should.be.eql(false);
+        });
+
+        it('should treat "b-button.inc" as filename', function() {
+            te.isLikeFile('b-button.inc').should.be.eql(true);
+        });
+
+        it('should treat "inc/button" as filename', function() {
+            te.isLikeFile('inc/button').should.be.eql(true);
+        });
+
+        it('should treat "blocks/b-button.tt" as filename', function() {
+            te.isLikeFile('blocks/b-button.tt').should.be.eql(true);
+        });
+    });
+
     describe('processTemplate()', function(){
         var template,
             tree;
@@ -89,13 +111,19 @@ describe('template-engine', function(){
                     xxx.tt2;; foo ? bar : qux\
                     %] [%~ INCLUDE     \'xxx.tt2\' %]\
                 [% INCLUDE non-existent.inc -%]\
+                [% BLOCK some_thing %]\
+                    <br/>\
+                [% END %]\
+                [% PROCESS some_thing %]\
+                [% INCLUDE OtherThing %]\
             </div>';
 
             tree = {
                 re: te.re,
                 seen: te.seen,
                 stash: te.stash,
-                resolvePath: _.bind(te.resolvePath, te)
+                resolvePath: _.bind(te.resolvePath, te),
+                isLikeFile: _.bind(te.isLikeFile, te)
             };
 
             processTemplate(tree, template, 'root');
