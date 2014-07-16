@@ -31,8 +31,7 @@ module.exports = function(grunt) {
                     eqnull: true,
                     node: true,
                     laxbreak: true,
-                    multistr: true,
-                    validthis: true
+                    multistr: true
                 }
             }
         },

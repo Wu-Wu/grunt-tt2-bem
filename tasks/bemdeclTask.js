@@ -35,8 +35,7 @@ module.exports = function (grunt) {
         gatherFiles = require('../lib/gather-files').gatherFiles;
 
 
-    function bemDeclTask () {
-
+    var bemDeclTask = function () {
         var options = this.options({
             root        : path.resolve(__dirname, '..'),
             includes    : [ '.' ],
@@ -110,7 +109,7 @@ module.exports = function (grunt) {
         else {
             grunt.log.writeln('No templates to processing');
         }
-    }
+    };
 
     grunt.registerMultiTask('bemdecl', 'Creates *.bemdecl.js for templates', bemDeclTask);
 };
