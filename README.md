@@ -26,8 +26,6 @@ grunt.loadNpmTasks('grunt-tt2-bem');
 
 ## The "bemdecl" task
 
-TODO
-
 ### Overview
 
 In your project's Gruntfile, add a section named `bemdecl` to the data object passed into `grunt.initConfig()`.
@@ -206,8 +204,21 @@ exports.blocks = [
 
 ### Source (templates) and destination (declarations) files
 
-Source and destination files should be pointed through the `src` and `dest` properties respectively.
-Both propereties are required to work the plugin. The `dest` accepts only `String` value, the `src` accepts `String`, `Array` or `Object`.
+Source files and destination directory should be pointed through the `src` and `dest` properties respectively. Both properties are required to work the plugin. Task fails if `src` and (or) `dest` property undefined.
+
+#### The `src` property
+
+This property may handle the following types data: `String`, `Array` or `Object`. There is some restrictions for the `Object` form. Each value should be either `String` or `Array`. In other words it does not handle `Object` as value for particular key (at the moment).
+
+All empty, undefined, false and duplicate values will be filtered before processing.
+
+Allowed to use path names or globbing patterns to point source files. See more at [Configuring Tasks: Globbing Patterns](http://gruntjs.com/configuring-tasks#globbing-patterns).
+
+#### The `dest` property
+
+This one is not flexible as `src`. It accepts `String` value only.
+
+#### In action
 
 As `String`
 
