@@ -33,7 +33,8 @@ module.exports = function (grunt) {
         util = require('util'),
         _ = require('lodash'),
         chalk = require('chalk'),
-        flattenPath = require('../lib/flatten-path');
+        flattenPath = require('../lib/flatten-path'),
+        gatherFiles = require('../lib/gather-files');
 
 
     function bemDeclTask () {
@@ -54,63 +55,23 @@ module.exports = function (grunt) {
 
         options.pkg = grunt.file.readJSON('package.json');
 
-        options.src = this.data.src;
-        options.dest = this.data.dest;
-
         // fatalities
         // no patterns for templates
-        if (_.isUndefined(options.src)) {
+        if (_.isUndefined(this.data.src)) {
             grunt.fatal('Missed patterns in task. Use "src" property.');
         }
         // no destination dir
-        if (_.isUndefined(options.dest)) {
+        if (_.isUndefined(this.data.dest)) {
             grunt.fatal('Missed destination directory in task. Use "dest" property.');
         }
 
-        // flattenPath options
-        options.flattenPath = {
-            root : options.root,
-            cut  : options.cut,
-            ext  : options.extSrc,
-            sep  : options.sep
-        };
+        options.dest = this.data.dest;
 
-        var files = [];
-
-        // String to Array
-        if (_.isString(options.src)) {
-            options.src = [ options.src ];
-        }
-        // Object to Array
-        if (_.isObject(options.src) && !_.isArray(options.src)) {
-            options.src = _.values();
-        }
-
-        // normalize list of patterns/files
-        options.src = _.chain(options.src)
-                            .flatten()
-                            .compact()
-                            .uniq()
-                            .value();
-
-        _.each(options.src, function (pattern) {
-            // expand each pattern
-            var expanded = grunt.file.expand(
-                { filter: 'isFile', cwd: '.' },
-                path.join(options.root, pattern)
-            );
-
-            _.each(expanded, function (file) {
-                // templates/choose/index.html -> templates-choose-index
-                var name = flattenPath(file, options.flattenPath);
-
-                files.push({
-                    src: file,
-                    dst: path.join(options.dest, name, name + options.extDst),
-                    dir: path.join(options.dest, name)
-                });
-            });
-        });
+        var files = gatherFiles(
+            this.data.src,
+            function (pattern) { return grunt.file.expand({ filter: 'isFile', cwd: '.' }, pattern); },
+            options
+        );
 
         if (files.length > 0) {
             this.te = new TemplateEngine({
