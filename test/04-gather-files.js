@@ -4,6 +4,7 @@
 //
 var gatherFiles = require('../lib/gather-files').gatherFiles,
     toArray = require('../lib/gather-files').toArray,
+    path = require('path'),
     should = require('should');
 
 require('mocha');
@@ -75,7 +76,160 @@ describe('gather-files toArray()', function() {
     });
 });
 
+// expanding callback. just return pattern without globbing (as is)
+var cb = function (pattern) {
+    return [ pattern ];
+};
+
 describe('gather-files gatherFiles()', function() {
-    it('should be ok', function() {
+    it('should works with defaults', function() {
+        var src = [
+                path.join('foo', 'bar.html'),
+                path.join('baz', 'qux.html'),
+                path.join('foo', 'bar.html')
+            ],
+            opts = {};
+
+        gatherFiles(src, cb, opts).should.be.eql([
+            {
+                src: path.join('foo', 'bar.html'),
+                dst: path.join('foo-bar', 'foo-bar.bemdecl.js'),
+                dir: path.join('foo-bar')
+            },
+            {
+                src: path.join('baz', 'qux.html'),
+                dst: path.join('baz-qux', 'baz-qux.bemdecl.js'),
+                dir: path.join('baz-qux')
+            }
+        ]);
+    });
+
+    it('should consider "root" option', function() {
+        var src = [
+                path.join('foo', 'bar.html'),
+            ],
+            opts = {
+                root: 'views'
+            };
+
+        gatherFiles(src, cb, opts).should.be.eql([
+            {
+                src: path.join('views', 'foo', 'bar.html'),
+                dst: path.join('foo-bar', 'foo-bar.bemdecl.js'),
+                dir: path.join('foo-bar')
+            }
+        ]);
+    });
+
+    it('should consider "dest" option', function() {
+        var src = [
+                path.join('foo', 'bar.html'),
+            ],
+            opts = {
+                root: path.join('views', 'my'),
+                dest: path.join('bem', 'bundles.dynamic')
+            };
+
+        gatherFiles(src, cb, opts).should.be.eql([
+            {
+                src: path.join('views', 'my', 'foo', 'bar.html'),
+                dst: path.join('bem', 'bundles.dynamic', 'foo-bar', 'foo-bar.bemdecl.js'),
+                dir: path.join('bem', 'bundles.dynamic', 'foo-bar')
+            }
+        ]);
+    });
+
+    it('should consider "extSrc" option', function() {
+        var src = [
+                path.join('foo', 'bar.tt2'),
+            ],
+            opts = {
+                root: path.join('views', 'my'),
+                extSrc: '.tt2'
+            };
+
+        gatherFiles(src, cb, opts).should.be.eql([
+            {
+                src: path.join('views', 'my', 'foo', 'bar.tt2'),
+                dst: path.join('foo-bar', 'foo-bar.bemdecl.js'),
+                dir: path.join('foo-bar')
+            }
+        ]);
+    });
+
+    it('should consider "extDst" option', function() {
+        var src = [
+                path.join('foo', 'bar.html'),
+            ],
+            opts = {
+                root: path.join('views', 'my'),
+                extDst: '.foo.bemdecl.js'
+            };
+
+        gatherFiles(src, cb, opts).should.be.eql([
+            {
+                src: path.join('views', 'my', 'foo', 'bar.html'),
+                dst: path.join('foo-bar', 'foo-bar.foo.bemdecl.js'),
+                dir: path.join('foo-bar')
+            }
+        ]);
+    });
+
+    it('should consider "sep" option', function() {
+        var src = [
+                path.join('foo', 'bar.html'),
+            ],
+            opts = {
+                root: path.join('views', 'my'),
+                sep: '__'
+            };
+
+        gatherFiles(src, cb, opts).should.be.eql([
+            {
+                src: path.join('views', 'my', 'foo', 'bar.html'),
+                dst: path.join('foo__bar', 'foo__bar.bemdecl.js'),
+                dir: path.join('foo__bar')
+            }
+        ]);
+    });
+
+    it('should consider "cut" option', function() {
+        var src = [
+                path.join('qux', 'foo', 'bar.html'),
+            ],
+            opts = {
+                root: path.join('views', 'my'),
+                cut: 1
+            };
+
+        gatherFiles(src, cb, opts).should.be.eql([
+            {
+                src: path.join('views', 'my', 'qux', 'foo', 'bar.html'),
+                dst: path.join('foo-bar', 'foo-bar.bemdecl.js'),
+                dir: path.join('foo-bar')
+            }
+        ]);
+    });
+
+    it('should consider all options', function() {
+        var src = [
+                path.join('qux', 'foo', 'bar.tt2'),
+            ],
+            opts = {
+                root: path.join('views', 'my'),
+                dest: path.join('bem', 'bundles.dynamic'),
+                extSrc: '.tt2',
+                extDst: '.tt2.bemdecl.js',
+                sep: '__',
+                cut: 1
+            };
+
+        gatherFiles(src, cb, opts).should.be.eql([
+            {
+                src: path.join('views', 'my', 'qux', 'foo', 'bar.tt2'),
+                dst: path.join('bem', 'bundles.dynamic', 'foo__bar', 'foo__bar.tt2.bemdecl.js'),
+                dir: path.join('bem', 'bundles.dynamic', 'foo__bar')
+            }
+        ]);
     });
 });
