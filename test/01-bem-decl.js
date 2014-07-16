@@ -206,10 +206,6 @@ describe('bem-decl', function() {
             bd.parse('');
         });
 
-        after(function(){
-            bd.clear();
-        });
-
         beforeEach(function(){
             block = { block: 'b-foo' };
             entity = { elem: 'bar' };
@@ -287,10 +283,6 @@ describe('bem-decl', function() {
 
         before(function(){
             bd.parse('');
-        });
-
-        after(function(){
-            bd.clear();
         });
 
         beforeEach(function(){
@@ -432,10 +424,6 @@ describe('bem-decl', function() {
         before(function(){
             em = loadFixture('elems_mods');
             bd.parse('');
-        });
-
-        after(function(){
-            bd.clear();
         });
 
         beforeEach(function(){
@@ -615,10 +603,6 @@ describe('bem-decl', function() {
             bd.parse( '<p class="b-text b-text_size_15 b-foo b-foo__bar"></p>' );
         });
 
-        after(function(){
-            bd.clear();
-        });
-
         it('should return correct length list of found entities', function() {
             bd.found().should.have.length(4);
         });
@@ -665,10 +649,6 @@ describe('bem-decl', function() {
             bd.parse(elems.template);
         });
 
-        after(function(){
-            bd.clear();
-        });
-
         it('should return correct length list of blocks', function() {
             bd.decl().should.have.length(elems.expected.decl.length);
         });
@@ -686,10 +666,6 @@ describe('bem-decl', function() {
             bd.parse(mods.template);
         });
 
-        after(function(){
-            bd.clear();
-        });
-
         it('should return correct length list of blocks', function() {
             bd.decl().should.have.length(mods.expected.decl.length);
         });
@@ -705,10 +681,6 @@ describe('bem-decl', function() {
         before(function(){
             basic = loadFixture('basic');
             bd.parse( basic.template );
-        });
-
-        after(function(){
-            bd.clear();
         });
 
         it('should return correct length list of entities', function() {
@@ -733,10 +705,6 @@ describe('bem-decl', function() {
 
         before(function(){
             bd.parse( text );
-        });
-
-        after(function(){
-            bd.clear();
         });
 
         it('should correct cast "elems" (strings) to "elems" (objects)', function(){

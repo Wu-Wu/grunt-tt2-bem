@@ -93,7 +93,6 @@ module.exports = function (grunt) {
                     grunt.fatal(this.te.errors().join('\n'));
                 }
                 else {
-                    this.bd.clear();
                     this.bd.parse(content);
 
                     var declContents =
