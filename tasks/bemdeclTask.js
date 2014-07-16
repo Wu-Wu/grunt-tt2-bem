@@ -30,10 +30,8 @@ module.exports = function (grunt) {
     var path = require('path'),
         TemplateEngine = require('../lib/template-engine'),
         BemDecl = require('../lib/bem-decl'),
-        util = require('util'),
         _ = require('lodash'),
         chalk = require('chalk'),
-        flattenPath = require('../lib/flatten-path'),
         gatherFiles = require('../lib/gather-files').gatherFiles;
 
 
@@ -47,7 +45,6 @@ module.exports = function (grunt) {
             extDst      : '.bemdecl.js',
             extSrc      : '.html',
             // misc
-            debug       : false,
             indentSize  : 4,
             sep         : '-',
             cut         : 0
@@ -105,7 +102,6 @@ module.exports = function (grunt) {
                     }
 
                     grunt.file.write(file.dst, declContents, {encoding: 'utf8'});
-                    // grunt.log.writeln(chalk.yellow(declContents));
                 }
 
                 next();
