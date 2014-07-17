@@ -2,12 +2,12 @@
 //
 // template-engine.js tests
 //
-var TemplateEngine = require('../lib/template-engine'),
-    te = new TemplateEngine({ root: 'test/fixtures', includes: [ '.', 'includes' ] }),
-    should = require('should'),
+var should = require('should'),
     fs = require('fs'),
     _ = require('lodash'),
     path = require('path'),
+    TemplateEngine = require('../lib/template-engine'),
+    te = new TemplateEngine({ root: path.join('test', 'fixtures'), includes: [ '.', 'includes' ] }),
     processTemplate = TemplateEngine.processTemplate;
 
 require('mocha');
@@ -59,17 +59,20 @@ describe('template-engine', function(){
 
     describe('resolvePath()', function(){
         it('should return full path if file name exists', function(){
-            te.resolvePath('blocks/b-foo.tt2').should.endWith('/includes/blocks/b-foo.tt2');
+            te.resolvePath(path.join('blocks', 'b-foo.tt2'))
+                .should.endWith(path.join('includes', 'blocks', 'b-foo.tt2'));
         });
 
         it('should return first resolved file name', function(){
             // test/fixtures/b-foo.inc
             // test/fixtures/includes/b-foo.inc
-            te.resolvePath('b-foo.inc').should.endWith('/fixtures/b-foo.inc');
+            te.resolvePath('b-foo.inc')
+                .should.endWith(path.join('fixtures', 'b-foo.inc'));
         });
 
         it('should return false if file name does not exists', function(){
-            te.resolvePath('blocks/non-existent.tt2').should.eql(false);
+            te.resolvePath(path.join('blocks', 'non-existent.tt2'))
+                .should.eql(false);
         });
     });
 
@@ -193,26 +196,26 @@ describe('template-engine', function(){
         });
 
         it('should return error if root template does not exist', function(){
-            var result = te.parse('test/fixtures/tt2-nonexistent.html');
+            var result = te.parse(path.join('test', 'fixtures', 'tt2-nonexistent.html'));
 
             (result === undefined).should.be.eql(true);
             te.errors().should.be.eql([ 'Template does not exist' ]);
         });
 
         it('should return error if root template is empty', function(){
-            var result = te.parse('test/fixtures/tt2-empty.html');
+            var result = te.parse(path.join('test', 'fixtures', 'tt2-empty.html'));
 
             (result === undefined).should.be.eql(true);
             te.errors().should.be.eql([ 'Template is empty' ]);
         });
 
         it('should return merged content if everything resolved', function() {
-            var filename = 'test/fixtures/tt2-resolved.html',
+            var filename = path.join('test', 'fixtures', 'tt2-resolved.html'),
                 template = fs.readFileSync(filename, { encoding: 'utf8' }),
                 expected = template + '\n' +
                 '<!--\n' +
                 ' parent: ' + filename + ' @ pos 26\n' +
-                ' resolved: ' + te.options.root + '/xxx.tt2\n' +
+                ' resolved: ' + path.join(te.options.root, 'xxx.tt2') + '\n' +
                 '-->\n' +
                 '<a class="b-bar__baz">&nbsp;</a>\n';
 
@@ -223,7 +226,7 @@ describe('template-engine', function(){
         });
 
         it('should return errors list if anything not resolved', function() {
-            var filename = 'test/fixtures/tt2-not-resolved.html',
+            var filename = path.join('test', 'fixtures', 'tt2-not-resolved.html'),
                 expected = [
                     'Unable to resolve file path:',
                     filename + ' @ pos 26: "INCLUDE xxx1.tt2"',

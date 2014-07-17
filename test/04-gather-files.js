@@ -29,36 +29,41 @@ describe('gather-files toArray()', function() {
     });
 
     it('should transform String to Array', function() {
-        toArray('foo/bar.html').should.be.eql([
-            'foo/bar.html'
-        ]);
+        var files = path.join('foo', 'bar.html');
+
+        toArray(files).should.be.eql([ files ]);
     });
 
     it('should transform composite String to Array', function() {
-        toArray('foo/bar.html:!qux/baz.html').should.be.eql([
-            'foo/bar.html',
-            '!qux/baz.html'
-        ]);
+        var files = [
+            path.join('foo', 'bar.html'),
+            path.join('!qux', 'baz.html'),
+        ];
+
+        toArray(files.join(path.delimiter)).should.be.eql(files);
     });
 
     it('should transform Object to Array', function() {
         var src = {
-            foo : [ 'foo/foo.html', 'foo/bar.html' ],
-            baz : 'baz/foo.html'
+            foo : [
+                path.join('foo', 'foo.html'),
+                path.join('foo', 'bar.html')
+            ],
+            baz : path.join('baz', 'foo.html')
         };
 
         toArray(src).should.be.eql([
-            'foo/foo.html',
-            'foo/bar.html',
-            'baz/foo.html'
+            path.join('foo', 'foo.html'),
+            path.join('foo', 'bar.html'),
+            path.join('baz', 'foo.html')
         ]);
     });
 
     it('should reject empty/undefined values', function() {
         var src = [
-            'foo/bar.html',
+            path.join('foo', 'bar.html'),
             false,
-            'bar/baz.html',
+            path.join('bar', 'baz.html'),
             undefined,
             null,
             '',
@@ -66,22 +71,26 @@ describe('gather-files toArray()', function() {
         ];
 
         toArray(src).should.be.eql([
-            'foo/bar.html',
-            'bar/baz.html'
+            path.join('foo', 'bar.html'),
+            path.join('bar', 'baz.html')
         ]);
     });
 
     it('should reject duplicates', function() {
         var src = {
-            foo : 'foo/bar.html',
-            bar : 'bar/baz.html',
-            baz : [ 'foo/bar.html', 'qux/qux.html', 'bar/baz.html' ]
+            foo : path.join('foo', 'bar.html'),
+            bar : path.join('bar', 'baz.html'),
+            baz : [
+                path.join('foo', 'bar.html'),
+                path.join('qux', 'qux.html'),
+                path.join('bar', 'baz.html')
+            ]
         };
 
         toArray(src).should.be.eql([
-            'foo/bar.html',
-            'bar/baz.html',
-            'qux/qux.html'
+            path.join('foo', 'bar.html'),
+            path.join('bar', 'baz.html'),
+            path.join('qux', 'qux.html')
         ]);
     });
 });
