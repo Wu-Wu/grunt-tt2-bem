@@ -75,12 +75,23 @@ Valid BEM prefixes.
 
 #### options.allowed
 
-Type: `Array`
+Type: `Array` | `Function`
 Default: `[ ]`
 
 Allowed BEM-blocks. Not allowed blocks will be filtered out from `*.bemdecl.js` files.
 
-> An empty list means that all BEM-blocks considered valid.
+> An empty list means that all BEM-blocks considered valid. If `Function` used it should return an `Array` of allowed blocks.
+
+```js
+options: {
+    allowed: function () {
+        var blocks = [];
+        // build Array of allowed blocks
+        ...
+        return blocks;
+    }
+}
+```
 
 #### options.extSrc
 

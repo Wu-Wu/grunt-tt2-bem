@@ -63,6 +63,12 @@ module.exports = function (grunt) {
 
         options.dest = this.data.dest;
 
+        // allowed might be a Fuction that returns an Array
+        if (_.isFunction(options.allowed)) {
+            grunt.log.writeln('Build allowed blocks...');
+            options.allowed = options.allowed.apply(null);
+        }
+
         var files = gatherFiles(
             this.data.src,
             function (pattern) { return grunt.file.expand({ filter: 'isFile', cwd: '.' }, pattern); },
