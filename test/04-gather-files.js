@@ -5,6 +5,8 @@
 var gatherFiles = require('../lib/gather-files').gatherFiles,
     toArray = require('../lib/gather-files').toArray,
     path = require('path'),
+    _ = require('lodash'),
+    grunt = require('grunt'),
     should = require('should');
 
 require('mocha');
@@ -77,8 +79,17 @@ describe('gather-files toArray()', function() {
 });
 
 // expanding callback. just return pattern without globbing (as is)
-var cb = function (pattern) {
-    return [ pattern ];
+var cbFake = function (pattern) {
+    return _.chain(pattern)
+                .map(function (el) {
+                    return el.charAt(0) === '!' ? null : el;
+                })
+                .compact()
+                .value();
+};
+
+var cbReal = function (pattern) {
+    return grunt.file.expand({ filter: 'isFile', cwd: '.' }, pattern);
 };
 
 describe('gather-files gatherFiles()', function() {
@@ -86,11 +97,12 @@ describe('gather-files gatherFiles()', function() {
         var src = [
                 path.join('foo', 'bar.html'),
                 path.join('baz', 'qux.html'),
-                path.join('foo', 'bar.html')
+                path.join('foo', 'bar.html'),
+                path.join('!qux', 'qux.html'),
             ],
             opts = {};
 
-        gatherFiles(src, cb, opts).should.be.eql([
+        gatherFiles(src, cbFake, opts).should.be.eql([
             {
                 src: path.join('foo', 'bar.html'),
                 dst: path.join('foo-bar', 'foo-bar.bemdecl.js'),
@@ -112,7 +124,7 @@ describe('gather-files gatherFiles()', function() {
                 root: 'views'
             };
 
-        gatherFiles(src, cb, opts).should.be.eql([
+        gatherFiles(src, cbFake, opts).should.be.eql([
             {
                 src: path.join('views', 'foo', 'bar.html'),
                 dst: path.join('foo-bar', 'foo-bar.bemdecl.js'),
@@ -130,7 +142,7 @@ describe('gather-files gatherFiles()', function() {
                 dest: path.join('bem', 'bundles.dynamic')
             };
 
-        gatherFiles(src, cb, opts).should.be.eql([
+        gatherFiles(src, cbFake, opts).should.be.eql([
             {
                 src: path.join('views', 'my', 'foo', 'bar.html'),
                 dst: path.join('bem', 'bundles.dynamic', 'foo-bar', 'foo-bar.bemdecl.js'),
@@ -148,7 +160,7 @@ describe('gather-files gatherFiles()', function() {
                 extSrc: '.tt2'
             };
 
-        gatherFiles(src, cb, opts).should.be.eql([
+        gatherFiles(src, cbFake, opts).should.be.eql([
             {
                 src: path.join('views', 'my', 'foo', 'bar.tt2'),
                 dst: path.join('foo-bar', 'foo-bar.bemdecl.js'),
@@ -166,7 +178,7 @@ describe('gather-files gatherFiles()', function() {
                 extDst: '.foo.bemdecl.js'
             };
 
-        gatherFiles(src, cb, opts).should.be.eql([
+        gatherFiles(src, cbFake, opts).should.be.eql([
             {
                 src: path.join('views', 'my', 'foo', 'bar.html'),
                 dst: path.join('foo-bar', 'foo-bar.foo.bemdecl.js'),
@@ -184,7 +196,7 @@ describe('gather-files gatherFiles()', function() {
                 sep: '__'
             };
 
-        gatherFiles(src, cb, opts).should.be.eql([
+        gatherFiles(src, cbFake, opts).should.be.eql([
             {
                 src: path.join('views', 'my', 'foo', 'bar.html'),
                 dst: path.join('foo__bar', 'foo__bar.bemdecl.js'),
@@ -202,7 +214,7 @@ describe('gather-files gatherFiles()', function() {
                 cut: 1
             };
 
-        gatherFiles(src, cb, opts).should.be.eql([
+        gatherFiles(src, cbFake, opts).should.be.eql([
             {
                 src: path.join('views', 'my', 'qux', 'foo', 'bar.html'),
                 dst: path.join('foo-bar', 'foo-bar.bemdecl.js'),
@@ -224,11 +236,60 @@ describe('gather-files gatherFiles()', function() {
                 cut: 1
             };
 
-        gatherFiles(src, cb, opts).should.be.eql([
+        gatherFiles(src, cbFake, opts).should.be.eql([
             {
                 src: path.join('views', 'my', 'qux', 'foo', 'bar.tt2'),
                 dst: path.join('bem', 'bundles.dynamic', 'foo__bar', 'foo__bar.tt2.bemdecl.js'),
                 dir: path.join('bem', 'bundles.dynamic', 'foo__bar')
+            }
+        ]);
+    });
+
+    it('should really works with negate and default root', function() {
+        var src = [
+                path.join('test', 'fixtures', 'templates', '**', '*.html'),
+                path.join('!test', 'fixtures', 'templates', 'web-sites', '**', '*.html')
+            ],
+            opts = {
+                cut: 3,
+                dest: 'bemX'
+            };
+
+        gatherFiles(src, cbReal, opts).should.be.eql([
+            {
+                src: path.join('test', 'fixtures', 'templates', 'choose', 'index.html'),
+                dst: path.join(opts.dest, 'choose-index', 'choose-index.bemdecl.js'),
+                dir: path.join(opts.dest, 'choose-index')
+            },
+            {
+                src: path.join('test', 'fixtures', 'templates', 'choose', 'new.html'),
+                dst: path.join(opts.dest, 'choose-new', 'choose-new.bemdecl.js'),
+                dir: path.join(opts.dest, 'choose-new')
+            }
+        ]);
+    });
+
+    it('should really works with negate and non default root', function() {
+        var src = [
+                path.join('templates', '**', '*.html'),
+                path.join('!templates', 'web-sites', '**', '*.html')
+            ],
+            opts = {
+                root: path.join('test', 'fixtures'),
+                dest: 'bemX',
+                cut: 1
+            };
+
+        gatherFiles(src, cbReal, opts).should.be.eql([
+            {
+                src: path.join(opts.root, 'templates', 'choose', 'index.html'),
+                dst: path.join(opts.dest, 'choose-index', 'choose-index.bemdecl.js'),
+                dir: path.join(opts.dest, 'choose-index')
+            },
+            {
+                src: path.join(opts.root, 'templates', 'choose', 'new.html'),
+                dst: path.join(opts.dest, 'choose-new', 'choose-new.bemdecl.js'),
+                dir: path.join(opts.dest, 'choose-new')
             }
         ]);
     });
