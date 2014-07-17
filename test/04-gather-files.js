@@ -13,6 +13,7 @@ require('mocha');
 
 describe('gather-files toArray()', function() {
     it('should accept empty/undefined String', function() {
+        toArray().should.be.eql([]);
         toArray('').should.be.eql([]);
         toArray(undefined).should.be.eql([]);
         toArray(false).should.be.eql([]);
@@ -30,6 +31,13 @@ describe('gather-files toArray()', function() {
     it('should transform String to Array', function() {
         toArray('foo/bar.html').should.be.eql([
             'foo/bar.html'
+        ]);
+    });
+
+    it('should transform composite String to Array', function() {
+        toArray('foo/bar.html:!qux/baz.html').should.be.eql([
+            'foo/bar.html',
+            '!qux/baz.html'
         ]);
     });
 

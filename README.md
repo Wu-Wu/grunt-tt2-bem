@@ -238,6 +238,18 @@ bemdecl: {
 }
 ```
 
+or composite `String` (delimiter depends on platform: `:` on Unix, `;` on Windows)
+
+```js
+bemdecl: {
+    all: {
+        options: { },
+        src: 'templates/foo/*.html:!templates/foo/bar.html',
+        dest: 'bem/bundles.generated'
+    }
+}
+```
+
 As `Array`
 
 ```js
