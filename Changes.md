@@ -5,6 +5,10 @@ Release History
 
 [![NPM version](https://badge.fury.io/js/grunt-tt2-bem.svg)](http://badge.fury.io/js/grunt-tt2-bem)
 
+## {{$NEXT}}
+  - Fix: constructing file paths with methods of module **path**.
+  - Feature: option `allowed` (blocks) can be set by `Function` returned an `Array`.
+
 ## v0.2.2
   - Fix: correct handle the negate symbols `!` in globbing patterns (#9).
   - Feature: support for composite `String` in `src` property (#10).
