@@ -95,6 +95,46 @@ describe('bem-decl', function() {
         });
     });
 
+    describe('isSeen()', function() {
+        before(function(){
+            bd.seen = { 'b-foo' : true };
+        });
+        after(function(){
+            bd.seen = {};
+        });
+
+        it('should be true for "b-foo"', function(){
+            bd.isSeen({ block : 'b-foo' }).should.be.eql(true);
+        });
+
+        it('should be false for "b-baz"', function(){
+            bd.isSeen({ block : 'b-baz' }).should.be.eql(false);
+        });
+    });
+
+    describe('isAllowed()', function() {
+        before(function(){
+            bd.allowed = [ 'b-foo' ];
+        });
+        after(function(){
+            bd.allowed = [];
+        });
+
+        it('should be true for "b-foo"', function(){
+            bd.isAllowed({ block : 'b-foo' }).should.be.eql(true);
+        });
+
+        it('should be false for "b-baz"', function(){
+            bd.isAllowed({ block : 'b-baz' }).should.be.eql(false);
+        });
+
+        it('should be always true if allowed is empty', function(){
+            bd.allowed = [];
+            bd.isAllowed({ block : 'b-qux' }).should.be.eql(true);
+            bd.isAllowed({ block : 'b-quux' }).should.be.eql(true);
+        });
+    });
+
     describe('parsed()', function(){
         beforeEach(function(){
             bd.stash = [
