@@ -461,6 +461,289 @@ describe('bem-decl', function() {
 
     });
 
+    describe('emPluralElem()', function(){
+        var elems,
+            entity;
+
+        beforeEach(function(){
+            entity = {
+                block : 'b-foo',
+                elem : 'bar',
+                modName : 'logo',
+                modVal : 'icann'
+            };
+        });
+
+        it('should push item as Object to "elems" if no item found', function(){
+            // non-boolean mod
+            elems = [];
+            bd.emPluralElem(elems, entity).should.be.eql([
+                {
+                    elem : 'bar',
+                    mods : [
+                        { mod : 'logo', val : 'icann' }
+                    ]
+                }
+            ]);
+
+            // boolean mod
+            elems = [];
+            entity.modVal = true;
+            bd.emPluralElem(elems, entity).should.be.eql([
+                { elem : 'bar', mod : 'logo' }
+            ]);
+        });
+
+        it('should transform "elems" to list of objects if item found in array', function(){
+            // non-boolean mod
+            elems = [ 'qux', 'bar' ];
+            bd.emPluralElem(elems, entity).should.be.eql([
+                {
+                    elem : 'qux'
+                },
+                {
+                    elem : 'bar',
+                    mods : [
+                        { mod : 'logo', val : 'icann' }
+                    ]
+                }
+            ]);
+
+            // boolean mod
+            elems = [ 'bar', 'qux' ];
+            entity.modVal = true;
+            bd.emPluralElem(elems, entity).should.be.eql([
+                { elem : 'bar', mod : 'logo' },
+                { elem : 'qux' }
+            ]);
+        });
+
+        it('should add "mod"/"mods" if elem-object found', function(){
+            // non-boolean mod
+            elems = [ { elem : 'bar' } ];
+            bd.emPluralElem(elems, entity).should.be.eql([
+                {
+                    elem : 'bar',
+                    mods : [
+                        { mod : 'logo', val : 'icann' }
+                    ]
+                }
+            ]);
+
+            // boolean mod
+            elems = [ { elem : 'bar' } ];
+            entity.modVal = true;
+            bd.emPluralElem(elems, entity).should.be.eql([
+                { elem : 'bar', mod : 'logo' }
+            ]);
+        });
+
+        it('should cast "mod" to "mods" for another mod of the same elem-object', function(){
+            // non-boolean mod
+            elems = [
+                {
+                    elem : 'bar',
+                    mod : 'link'
+                }
+            ];
+            bd.emPluralElem(elems, entity).should.be.eql([
+                {
+                    elem : 'bar',
+                    mods : [
+                        { mod : 'link' },
+                        { mod : 'logo', val : 'icann' }
+                    ]
+                }
+            ]);
+
+            // boolean mod
+            elems = [
+                {
+                    elem : 'bar',
+                    mod : 'link'
+                }
+            ];
+            entity.modVal = true;
+            bd.emPluralElem(elems, entity).should.be.eql([
+                {
+                    elem : 'bar',
+                    mods : [
+                        { mod : 'link' }, { mod : 'logo' }
+                    ]
+                }
+            ]);
+        });
+
+        it('should not change for the same elem-object and the same mod', function(){
+            // boolean mod
+            elems = [
+                {
+                    elem : 'bar',
+                    mod : 'logo'
+                }
+            ];
+            entity.modVal = true;
+            bd.emPluralElem(elems, entity).should.be.eql([
+                { elem : 'bar', mod : 'logo' }
+            ]);
+        });
+
+        it('should cast "mod" to "mods" with "vals" for the same elem-object and the same mod (non-boolean mod)', function(){
+            elems = [
+                {
+                    elem : 'bar',
+                    mod : 'logo'
+                }
+            ];
+            bd.emPluralElem(elems, entity).should.be.eql([
+                {
+                    elem : 'bar',
+                    mods : [
+                        { mod : 'logo', vals : [ true, 'icann' ] }
+                    ]
+                }
+            ]);
+        });
+
+        // exists "mods" (only)
+        it('should cast "val" to "vals" for the same elem-object and the same boolean mod', function(){
+            elems = [
+                {
+                    elem : 'bar',
+                    mods : [
+                        { mod : 'logo', val : 'icann' }
+                    ]
+                }
+            ];
+            entity.modVal = true;
+            bd.emPluralElem(elems, entity).should.be.eql([
+                {
+                    elem : 'bar',
+                    mods : [
+                        { mod : 'logo', vals : [ 'icann', true ] }
+                    ]
+                }
+            ]);
+        });
+
+        it('should not change "vals" for the same elem-object and the same mod', function(){
+            // if "vals"
+            elems = [
+                {
+                    elem : 'bar',
+                    mods : [
+                        { mod : 'logo', vals : [ 'icann' ] }
+                    ]
+                }
+            ];
+            bd.emPluralElem(elems, entity).should.be.eql([
+                {
+                    elem : 'bar',
+                    mods : [
+                        { mod : 'logo', vals : [ 'icann' ] }
+                    ]
+                }
+            ]);
+
+            // if "val"
+            elems = [
+                {
+                    elem : 'bar',
+                    mods : [
+                        { mod : 'logo', val : 'icann' }
+                    ]
+                }
+            ];
+            bd.emPluralElem(elems, entity).should.be.eql([
+                {
+                    elem : 'bar',
+                    mods : [
+                        { mod : 'logo', val : 'icann' }
+                    ]
+                }
+            ]);
+
+            // if boolean
+            elems = [
+                {
+                    elem : 'bar',
+                    mods : [
+                        { mod : 'logo' }
+                    ]
+                }
+            ];
+            entity.modVal = true;
+            bd.emPluralElem(elems, entity).should.be.eql([
+                {
+                    elem : 'bar',
+                    mods : [
+                        { mod : 'logo' }
+                    ]
+                }
+            ]);
+
+            // if "vals" boolean
+            elems = [
+                {
+                    elem : 'bar',
+                    mods : [
+                        { mod : 'logo', vals : [ true ] }
+                    ]
+                }
+            ];
+            entity.modVal = true;
+            bd.emPluralElem(elems, entity).should.be.eql([
+                {
+                    elem : 'bar',
+                    mods : [
+                        { mod : 'logo', vals : [ true ] }
+                    ]
+                }
+            ]);
+        });
+
+        it('should add to "mods" if mod not found', function(){
+            // non-booolean mod
+            elems = [
+                {
+                    elem : 'bar',
+                    mods : [
+                        { mod : 'link' }
+                    ]
+                }
+            ];
+            bd.emPluralElem(elems, entity).should.be.eql([
+                {
+                    elem : 'bar',
+                    mods : [
+                        { mod : 'link' },
+                        { mod : 'logo', val : 'icann' }
+                    ]
+                }
+            ]);
+
+            // booolean mod
+            elems = [
+                {
+                    elem : 'bar',
+                    mods : [
+                        { mod : 'link' }
+                    ]
+                }
+            ];
+            entity.modVal = true;
+            bd.emPluralElem(elems, entity).should.be.eql([
+                {
+                    elem : 'bar',
+                    mods : [
+                        { mod : 'link' },
+                        { mod : 'logo', val : true }
+                    ]
+                }
+            ]);
+        });
+    });
+
     describe('handleElemMod()', function(){
         var block,
             entity,
