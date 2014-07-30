@@ -135,6 +135,24 @@ describe('bem-decl', function() {
         });
     });
 
+    describe('isNotBroken()', function() {
+        it('should be true for elem "bar"', function(){
+            bd.isNotBroken({ elem : 'bar' }).should.be.eql(true);
+        });
+
+        it('should be false for elem "bar-"', function(){
+            bd.isNotBroken({ elem : 'bar-' }).should.be.eql(false);
+        });
+
+        it('should be true for mod "logo"', function(){
+            bd.isNotBroken({ elem : 'bar', modName : 'logo' }).should.be.eql(true);
+        });
+
+        it('should be false for mod "logo-"', function(){
+            bd.isNotBroken({ elem : 'bar', modName : 'logo-' }).should.be.eql(false);
+        });
+    });
+
     describe('parsed()', function(){
         beforeEach(function(){
             bd.stash = [
@@ -189,6 +207,15 @@ describe('bem-decl', function() {
 
             bd.parsed().should
                             .not.containDeep([ { block: 'b-xxx' } ])
+                            .and.have.length(2);
+        });
+
+        it('should filter broken elems and mods', function(){
+            bd.stash.push({ block: 'b-foo', elem: 'ppp-', modName: 'ddd', modVal: 'eee' });
+            bd.stash.push({ block: 'b-foo', elem: 'ppp', modName: 'ddd-', modVal: 'eee' });
+
+            bd.parsed().should
+                            .not.containDeep([ { elem: 'ppp-' }, { elem: 'ppp' } ])
                             .and.have.length(2);
         });
     });
