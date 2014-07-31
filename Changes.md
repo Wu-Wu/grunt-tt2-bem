@@ -6,8 +6,12 @@ Release History
 [![NPM version](https://badge.fury.io/js/grunt-tt2-bem.svg)](http://badge.fury.io/js/grunt-tt2-bem)
 
 ## {{$NEXT}}
+
+## v0.2.3
   - Fix: constructing file paths with methods of module **path**.
   - Feature: option `allowed` (blocks) can be set by `Function` returned an `Array`.
+  - Fix: incorrect behaviour if there is no `mod`/`mods` for the element.
+  - Refactoring of the `handleElemMod()`.
 
 ## v0.2.2
   - Fix: correct handle the negate symbols `!` in globbing patterns (#9).
