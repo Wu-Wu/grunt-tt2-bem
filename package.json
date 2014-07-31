@@ -1,6 +1,6 @@
 {
   "name": "grunt-tt2-bem",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "Template Toolkit 2 to BEM bridge",
   "repository": {
     "type": "git",
